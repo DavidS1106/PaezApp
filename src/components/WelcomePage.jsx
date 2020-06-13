@@ -1,15 +1,20 @@
 import React from 'react';
-import logoAccueil from '../imgs/noir-blanc.jpg';
-import './App.css';
+import '../App.css';
+import ImgContainer from './images/ImgContainer';
+import NameContainer from './names/NameContainer';
+import NavBarContainer from './navbar/NavBarContainer';
+import { Container } from 'react-bootstrap';
 
 function WelcomePage() {
-  return (
-    <div className="WelcomePage">
-      <header className="WelcomePage-header">
-        <img src={logoAccueil} /*className="App-logo"*/ alt="logo" />
-      </header>
-    </div>
-  );
+    return (
+        <div>
+            <Container>
+            <ImgContainer nom='Accueil'/>
+            </Container>
+            <NameContainer/>
+            <NavBarContainer/>
+        </div>
+    );
 }
 
 export default WelcomePage;
