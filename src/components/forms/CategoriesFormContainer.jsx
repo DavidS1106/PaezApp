@@ -11,7 +11,7 @@ class CategoriesFormContainer extends React.Component {
 
 
     componentDidMount() {
-        console.log("FormContaine page");
+        console.log("FormContainer page");
         let items=[];
         axios.get('http://localhost:3000/categories' /*+ DEFAULT_QUERY*/)
         .then(result =>{

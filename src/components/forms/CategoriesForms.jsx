@@ -6,7 +6,7 @@ const CategoriesForm = ({cats,submit}) => {
                 {
                             cats.map((item,i) => {
                                 return (
-                                  <div>
+                                  <div key={i}>
                                     <label>{item}</label><br></br>
                                     <input type="checkbox" id="{i}" name="name" value="{item}"></input>
                                     <br></br>
