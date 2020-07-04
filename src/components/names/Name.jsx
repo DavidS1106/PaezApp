@@ -5,7 +5,7 @@ const Name = ({ name}) => {
     return (
       <td>
         <Col id="accueil_button">
-          <Button id="accueil_button" variant="outline-light" size="lg">{name}</Button>
+          <Button id="accueil_button" variant="outline-dark" size="lg">{name}</Button>
         </Col>
       </td>
     )

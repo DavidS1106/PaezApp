@@ -1,6 +1,6 @@
 import React from 'react';
 import {HashRouter as Router, Route} from "react-router-dom";
-import WelcomePage from './WelcomePage';
+import WelcomePage from './pages/WelcomePage';
 function AppRouter(){
     return (
         <Router>
