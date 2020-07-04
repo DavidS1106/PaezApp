@@ -1,8 +1,9 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 import SideNav, { /*Toggle, Nav,*/ NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 const NavBar = () => {
     return (
-      <div classname="menu">
+      <div>
             <SideNav
                     onSelect={(selected) => {
                         // Add your code here
@@ -15,7 +16,7 @@ const NavBar = () => {
                             <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />
                         </NavIcon>
                         <NavText>
-                            Accueil
+                            <Link to="/home">Accueil</Link>
                         </NavText>
                     </NavItem>
                     <NavItem eventKey="pep">

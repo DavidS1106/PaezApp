@@ -11,7 +11,7 @@ class NameContainer extends React.Component {
         };
       }
 
-
+    
     componentDidMount() {
         let items=[];
         axios.get('http://localhost:3000/auteurs' /*+ DEFAULT_QUERY*/)
