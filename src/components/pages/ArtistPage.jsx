@@ -8,7 +8,10 @@ import { withRouter } from "react-router";
 
 function ArtistPage() {
     let location= useLocation();
-    console.log(" retrieve :"+location.state);
+    if(location.state!==undefined){
+        localStorage.setItem('artist',  location.state.artist_name);
+    }
+    console.log(" retrieve :"+localStorage.getItem('artist'));
     return (
         <div>
             <Container>
