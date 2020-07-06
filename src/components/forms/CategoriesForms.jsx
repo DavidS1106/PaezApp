@@ -7,15 +7,15 @@ const CategoriesForm = ({cats,submit}) => {
                             cats.map((item,i) => {
                                 return (
                                   <div key={i}>
-                                    <label>{item}</label><br></br>
-                                    <input type="checkbox" id="{i}" name="name" value="{item}"></input>
+                                    <label>{item.nom}</label><br></br>
+                                    <input onChange={submit} type="checkbox" id="{i}" name="name" value={item.id}></input>
                                     <br></br>
                                   </div>
                                 );
                             })
                 }
                 <br></br>
-                <input type="submit" value="Submit" />
+               
             </form>
     </div>  
     )
