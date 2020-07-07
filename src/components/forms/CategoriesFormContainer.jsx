@@ -7,11 +7,13 @@ class CategoriesFormContainer extends React.Component {
         super(props);
         this.state = {
             categories:[],
-           // rendered_images:[]
+           rendered_images:[]
         };
         this.images=[];
+        this.should_be_updated=true;
        // const [todos, setTodos] = useState([{ checked: false }]);
        this.handleSubmit = this.handleSubmit.bind(this); 
+       //this.promiseFunction=this.promiseFunction.bind(this);
       }
 
 
@@ -24,43 +26,47 @@ class CategoriesFormContainer extends React.Component {
                 //items.push(result.data[i].nom);
                 items.push({object_id:result.data[i]._id,id: i,bool: true,nom :result.data[i].nom});
             }
-            this.fetchingImages();
-            this.setState({ categories: items,/*rendered_images:this.images*/ });  
-
+           
+            this.setState({ categories: items,});  
+            
         })
         .catch(error =>{
             console.log("error: "+error);
         });
     }
-    fetchingImages(){
+    fetchingImages= async()=>{
       let tab=this.state.categories;
       this.images=[];
-      for(let value of tab.entries()){
-        if(value[1].bool===true){
-            axios.get('http://localhost:3000/images/id/'+value[1].object_id)
-            .then(result =>{
-              //console.log("reussi:" +result);
-              if(  this.images.length!==0){
-                for(let i=0;i<result.data.length;i++){
-                  this.images[  this.images.length+i]=result.data[i];
+        for(let value of tab.entries()){
+          if(value[1].bool===true){
+             await axios.get('http://localhost:3000/images/id/'+value[1].object_id)
+              .then(result =>{
+                if(  this.images.length!==0){
+                  for(let i=0;i<result.data.length;i++){
+                    this.images[ this.images.length+i]=result.data[i];
+                  }
                 }
-                console.log("reussi:" +this.images);
-              }
-              else if(  this.images.length===0){
-                this.images=result.data;
-              }
-            })
-            .catch(error =>{
-                console.log("error: "+error);
-            });
+                else if(  this.images.length===0){
+                  this.images=result.data;
+                }
+              })
+              .catch(error =>{
+                  console.log("error: "+error);
+              });
+          }
         }
-      }
+        this.setState({ rendered_images:this.images});  
     }
     componentDidUpdate(){
-      console.log("update ");
-      this.fetchingImages();
+     if ( this.should_be_updated===true) {
+        this.should_be_updated=false;
+        console.log("update ");
+        this.fetchingImages();
+      }
+     
     }
     handleSubmit(event) {
+        this.should_be_updated=true;
         let target = event.target;
         let value = target.value;
         let tab= this.state.categories;
@@ -71,7 +77,6 @@ class CategoriesFormContainer extends React.Component {
         else{
           tab[value].bool=true;
         } 
-        console.log("bool: "+tab[value].bool)
         this.setState({ categories: tab }); 
         //event.preventDefault();
     }
