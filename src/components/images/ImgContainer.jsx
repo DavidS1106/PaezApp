@@ -13,7 +13,7 @@ class ImgContainer extends React.Component {
 
     componentDidMount() {
       
-        axios.get('http://localhost:3000/images/'+this.state.name)
+        axios.get('http://localhost:3000/images/name/'+this.state.name)
             .then(result =>{  
               let obj=result.data;             
               this.setState({ img: obj.uri_img });
