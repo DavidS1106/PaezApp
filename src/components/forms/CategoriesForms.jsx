@@ -8,7 +8,7 @@ const CategoriesForm = ({cats,submit}) => {
                                 return (
                                   <div key={i}>
                                     <label>{item.nom}</label><br></br>
-                                    <input onChange={submit} type="checkbox" id="{i}" name="name" value={item.id}></input>
+                                    <input onChange={submit} type="checkbox" id="{i}" name="name" value={item.id} checked={item.bool}></input>
                                     <br></br>
                                   </div>
                                 );
