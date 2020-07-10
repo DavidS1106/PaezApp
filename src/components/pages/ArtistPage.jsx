@@ -3,7 +3,6 @@ import '../../App.css';
 import { Container } from 'react-bootstrap';
 import CategoriesFormContainer from '../forms/CategoriesFormContainer';
 import { useLocation } from "react-router";
-import { withRouter } from "react-router";
 
 function ArtistPage() {
     let location= useLocation();
@@ -20,4 +19,4 @@ function ArtistPage() {
     );
 }
 
-export default withRouter(ArtistPage);
+export default ArtistPage

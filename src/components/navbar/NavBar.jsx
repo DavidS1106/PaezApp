@@ -1,8 +1,8 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import SideNav, { /*Toggle, Nav,*/ NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
-import LoginFacebook from '../facebook/LoginFacebook';
-const NavBar = (props) => {
+import LoginContainer from '../facebook/LoginContainer';
+const NavBar = () => {
     return (
       <div>
             <SideNav
@@ -37,12 +37,12 @@ const NavBar = (props) => {
                         </NavText>
                     </NavItem>
                     <NavItem>
+                        <NavText>
+                            <LoginContainer/>
+                        </NavText>
                         <NavIcon>
                            {/* <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em'}} />*/}
                         </NavIcon>
-                        <NavText>
-                            <LoginFacebook state={props.state} loggedIn={props.loggedIn}/>
-                        </NavText>
                     </NavItem>
                 </SideNav.Nav>
             </SideNav>

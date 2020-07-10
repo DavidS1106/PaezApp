@@ -61,7 +61,6 @@ class CategoriesFormContainer extends React.Component {
     componentDidUpdate(){
      if ( this.should_be_updated===true) {
         this.should_be_updated=false;
-        console.log("update ");
         this.fetchingImages();
       }
      
@@ -81,7 +80,7 @@ class CategoriesFormContainer extends React.Component {
         this.setState({ categories: tab }); 
         //event.preventDefault();
     }
-
+    
     render() {
       return (
         <div>
@@ -89,7 +88,9 @@ class CategoriesFormContainer extends React.Component {
             {
                             this.images.map((item,i) => {
                                 return (
-                                        <ImgContainer name={item.name} img={item.uri_img} key={i} />
+                                    <div id="tableaux" key={i}>
+                                        <ImgContainer name={item.name} img={item.uri_img}/>
+                                    </div>
                                 );
                             })
             }

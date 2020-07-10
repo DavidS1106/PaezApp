@@ -22,10 +22,29 @@ class ImgContainer extends React.Component {
                 console.log("error image: "+error);
             });
     }
+    handleMouseDown(event){
+      console.log("mouse down");
+    }
 
+    handleMouseMove(event){
+      console.log(event.target);
+        console.log("mouse out");
+    }
+
+    handleMouseUp(event){
+      console.log(event.target);
+        console.log("mouse over");
+    }
+    handleMouseClick(event){
+      console.log(event.target);
+      console.log("click");
+    }
     render() {
       return (
-          <Image name={this.state.name} img={this.state.img} />
+          <Image clic={this.handleMouseClick}
+          down={this.handleMouseDown}
+          move={this.handleMouseMove}
+          up={this.handleMouseUp} name={this.state.name} img={this.state.img} />
       );
     }
   }

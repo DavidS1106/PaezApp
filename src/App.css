@@ -1,6 +1,22 @@
 .btnFacebook { 
   width: 150px;
-  height:40px;  
+  height:35px;  
+  border-radius: 4px;
+  background: #3b5998;
+  color:white;
+  border:0px transparent;  
+  text-align: center;
+  margin:5px;
+  display: inline-block;
+}
+#tableaux{
+  width:500px;
+  margin: auto;
+  padding:20px;
+}
+#deco_facebook{
+  width: 130px;
+  height:35px;  
   border-radius: 4px;
   background: #3b5998;
   color:white;

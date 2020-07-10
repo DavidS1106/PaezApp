@@ -1,5 +1,6 @@
 import React from 'react';
 import FacebookLogin from 'react-facebook-login';
+import { Button } from 'react-bootstrap';
 //import ReactDOM from 'react-dom';
 const LoginFacebook = (props) => {
     
@@ -9,6 +10,7 @@ const LoginFacebook = (props) => {
             props.loggedIn(response);
         }
     }
+  
     if(props.state.isLoggedIn===false){
         return(
             <FacebookLogin
@@ -29,8 +31,10 @@ const LoginFacebook = (props) => {
                 background:'f4f4f4',
                 padding:'20px'
             }}>
-            <img src={props.state.picture.data.url} alt={props.state.name}/>
-            <h7>{props.state.name}</h7>
+                <img src={props.state.picture.data.url} alt={props.state.name}/>
+                <br></br>
+                <p>Bienvenue {props.state.name}</p>
+                <Button onClick={props.loggedOut} variant="primary" id="deco_facebook">Se déconnecter</Button>
             </div>
         )
     }
