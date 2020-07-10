@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import CategoriesForm from './CategoriesForms';
 import ImgContainer from '../images/Image';
+//import LoginFacebook from '../facebook/LoginFacebook';
 class CategoriesFormContainer extends React.Component {
     constructor(props) {
         super(props);

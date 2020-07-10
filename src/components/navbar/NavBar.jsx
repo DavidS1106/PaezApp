@@ -1,7 +1,8 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import SideNav, { /*Toggle, Nav,*/ NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
-const NavBar = () => {
+import LoginFacebook from '../facebook/LoginFacebook';
+const NavBar = (props) => {
     return (
       <div>
             <SideNav
@@ -13,7 +14,7 @@ const NavBar = () => {
                 <SideNav.Nav defaultSelected="home">
                     <NavItem eventKey="home">
                         <NavIcon>
-                            <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />
+                            <Link to="/home"><i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} /></Link>
                         </NavIcon>
                         <NavText>
                             <Link to="/home">Accueil</Link>
@@ -21,39 +22,27 @@ const NavBar = () => {
                     </NavItem>
                     <NavItem eventKey="pep">
                         <NavIcon>
-                            <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em'}} />
+                           {/* <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em'}} />*/}
                         </NavIcon>
                         <NavText>
-                            Pepita
+                            Pepita                     
                         </NavText>
-                        <NavItem eventKey="charts/linechart">
-                            <NavText>
-                                acrylique
-                            </NavText>
-                        </NavItem>
-                        <NavItem eventKey="charts/barchart">
-                            <NavText>
-                                huile
-                            </NavText>
-                        </NavItem>
                     </NavItem>
                     <NavItem eventKey="carna">
-                        <NavIcon>
-                            <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
+                         <NavIcon>
+                            {/*<i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />*/}
                         </NavIcon>
                         <NavText>
                             Carna
                         </NavText>
-                        <NavItem eventKey="charts/linechart">
-                            <NavText>
-                                acrylique
-                            </NavText>
-                        </NavItem>
-                        <NavItem eventKey="charts/barchart">
-                            <NavText>
-                                huile
-                            </NavText>
-                        </NavItem>
+                    </NavItem>
+                    <NavItem>
+                        <NavIcon>
+                           {/* <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em'}} />*/}
+                        </NavIcon>
+                        <NavText>
+                            <LoginFacebook state={props.state} loggedIn={props.loggedIn}/>
+                        </NavText>
                     </NavItem>
                 </SideNav.Nav>
             </SideNav>
