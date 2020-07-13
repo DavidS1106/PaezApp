@@ -3,10 +3,7 @@ import Pic from 'react-bootstrap/Image'
 const Image = (props) => {
     return (
       <div>
-       <Pic onClick={props.clic}
-       onMouseDown={props.down}
-       onMouseOut={props.move}
-       onMouseOver={props.up}id="accueil" src={props.img}  />
+       <Pic id="accueil" src={props.img} alt={props.name} />
       </div>
     )
   }

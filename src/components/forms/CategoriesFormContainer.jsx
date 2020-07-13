@@ -1,20 +1,19 @@
 import React from 'react';
 import axios from 'axios';
 import CategoriesForm from './CategoriesForms';
-import ImgContainer from '../images/Image';
+import ModalImage from "react-modal-image";
 //import LoginFacebook from '../facebook/LoginFacebook';
 class CategoriesFormContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             categories:[],
-           rendered_images:[]
+           rendered_images:[],
         };
         this.images=[];
         this.should_be_updated=true;
        // const [todos, setTodos] = useState([{ checked: false }]);
-       this.handleSubmit = this.handleSubmit.bind(this); 
-       //this.promiseFunction=this.promiseFunction.bind(this);
+       this.handleSubmit = this.handleSubmit.bind(this);
       }
 
 
@@ -80,19 +79,26 @@ class CategoriesFormContainer extends React.Component {
         this.setState({ categories: tab }); 
         //event.preventDefault();
     }
-    
     render() {
       return (
         <div>
             <CategoriesForm cats={this.state.categories} submit={this.handleSubmit} />
             {
+                            
                             this.images.map((item,i) => {
                                 return (
-                                    <div id="tableaux" key={i}>
-                                        <ImgContainer name={item.name} img={item.uri_img}/>
+                                    <div onClick={this.onClickEvent} key={i}
+                                    >
+                                        <ModalImage  className="tableaux"
+                                          small={item.uri_img}
+                                          large={item.uri_img}
+                                          alt={item.name}
+                                          hideDownload={true}
+                                        />
                                     </div>
                                 );
                             })
+                            
             }
         </div>
       );

@@ -9,8 +9,19 @@
   margin:5px;
   display: inline-block;
 }
-#tableaux{
+.tableaux{
   width:500px;
+  margin: auto;
+  padding:50px;
+  transition: transform .2s; 
+}
+.tableaux:hover{
+  transform: scale(1.5);
+  
+}
+
+.tableau_hovered{
+  width:1000px;
   margin: auto;
   padding:20px;
 }
