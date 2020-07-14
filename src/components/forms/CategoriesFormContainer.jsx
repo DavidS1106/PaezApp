@@ -5,7 +5,10 @@ import CategoriesForm from './CategoriesForms';
 //import FacebookLogin from 'react-facebook-login';
 import { Modal } from 'react-bootstrap';
 import ImgContainer from '../images/ImgContainer';
-import { Button,Form } from 'react-bootstrap';
+import { Button} from 'react-bootstrap';
+import UpdateFormComponent from './UpdateFormComponent';
+import AddFormComponent from './AddFormComponent';
+import logo from '../../imgs/add_image.png';
 class CategoriesFormContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -18,6 +21,7 @@ class CategoriesFormContainer extends React.Component {
            img_focused_src:null,
            delete_show:false,
            update_show:false,
+           add_show:false,
         };
         this.images=[];
         this.should_be_updated=true;
@@ -28,6 +32,8 @@ class CategoriesFormContainer extends React.Component {
         this.handleShowDelete = this.handleShowDelete.bind(this);
         this.handleCloseUpdate = this.handleCloseUpdate.bind(this);
         this.handleShowUpdate = this.handleShowUpdate.bind(this);
+        this.handleCloseAdd = this.handleCloseAdd.bind(this);
+        this.handleShowAdd = this.handleShowAdd.bind(this);
       }
       handleClose(){
         this.setState({show:false});
@@ -48,6 +54,13 @@ class CategoriesFormContainer extends React.Component {
       handleShowUpdate(){
         //fetch data
         this.setState({show:false,update_show:true});
+      }
+      handleCloseAdd(){
+        this.setState({add_show:false});
+      }
+      handleShowAdd(){
+        //fetch data
+        this.setState({add_show:true});
       }
     componentDidMount() { 
         let items_cat=[];
@@ -132,6 +145,7 @@ class CategoriesFormContainer extends React.Component {
       return (
         <div>
             <CategoriesForm cats={this.state.categories} submit={this.handleSubmit} />
+            <img onClick={this.handleShowAdd}className='logo_add_image' src={logo} alt="add"/>
             {
                             
                             this.images.map((item,i) => {
@@ -173,54 +187,8 @@ class CategoriesFormContainer extends React.Component {
                           </Button>
                 </Modal.Footer>
             </Modal>
-            <Modal show={this.state.update_show} onHide={this.handleCloseUpdate}>
-                <Modal.Header closeButton> 
-                   
-                </Modal.Header>
-                <Modal.Body>
-                          <Form>
-                            <Form.Group >
-                              <Form.Label>Titre</Form.Label>
-                              <Form.Control type="text" placeholder="Nouveau titre" />
-                            </Form.Group>
-                            <Form.Group>
-                              <Form.Label>Annee</Form.Label>
-                              <Form.Control type="text" placeholder="Annee" />
-                            </Form.Group>
-                            <Form.Group controlId="formBasicCheckbox">
-                              <Form.Label>Catégorie</Form.Label>
-                              <Form.Control as="select">
-                                {
-                                  this.state.categories.map((item,i)=>{
-                                    return(
-                                    <option key={i}>{item.nom}</option>
-                                    )
-                                  })
-                                }
-                              </Form.Control>
-                            </Form.Group>
-                            <Form.Group controlId="formBasicCheckbox">
-                            <Form.Label>Support</Form.Label>
-                              <Form.Control as="select">
-                                {
-                                  this.state.supports.map((item,i)=>{
-                                    return(
-                                    <option key={i}>{item.nom}</option>
-                                    )
-                                  })
-                                }
-                              </Form.Control>
-                            </Form.Group>
-                            <Form.Group >
-                              <Form.Label>Prix</Form.Label>
-                              <Form.Control type="text" placeholder="Nouveau prix" />
-                            </Form.Group>
-                            <Button variant="primary" type="submit">
-                              Valider
-                            </Button>
-                          </Form>
-                </Modal.Body>
-            </Modal>
+            <UpdateFormComponent cats={this.state.categories} supports={this.state.supports} show={this.state.update_show} onHide={this.handleCloseUpdate}/>
+            <AddFormComponent cats={this.state.categories} supports={this.state.supports} show={this.state.add_show} onHide={this.handleCloseAdd}/>   
         </div>
       );
     }
