@@ -10,6 +10,13 @@ function ArtistPage() {
         localStorage.setItem('artist',  location.state.artist_name);
     }
     console.log(" retrieve :"+localStorage.getItem('artist'));
+    let tab_users=JSON.parse(localStorage.getItem('admins'));
+    console.log(tab_users);
+    for(let i=0;i<tab_users.length;i++){
+        if(localStorage.getItem('artist')===tab_users[i].prenom){
+            localStorage.setItem('id_artist',  tab_users[i]._id);
+        }
+    }
     return (
         <div>
             <Container>

@@ -9,22 +9,22 @@ const UpdateFormComponent = (props) => {
                    
                 </Modal.Header>
                 <Modal.Body>
-                          <Form>
+                          <Form onSubmit={props.submit}>
                             <Form.Group >
-                              <Form.Label>Titre</Form.Label>
-                              <Form.Control type="text" placeholder="Nouveau titre" />
+                              <Form.Label >Titre</Form.Label>
+                              <Form.Control name="titre"  type="text" placeholder="Nouveau titre"></Form.Control>
                             </Form.Group>
                             <Form.Group>
                               <Form.Label>Annee</Form.Label>
-                              <Form.Control type="text" placeholder="Annee" />
+                              <Form.Control name="annee" type="text" placeholder="Annee">{props.year}</Form.Control> 
                             </Form.Group>
                             <Form.Group controlId="formBasicCheckbox">
                               <Form.Label>Catégorie</Form.Label>
-                              <Form.Control as="select">
+                              <Form.Control name="categorie" as="select">
                                 {
                                   props.cats.map((item,i)=>{
                                     return(
-                                    <option key={i}>{item.nom}</option>
+                                    <option value={item.object_id} key={i}>{item.nom}</option>
                                     )
                                   })
                                 }
@@ -32,11 +32,11 @@ const UpdateFormComponent = (props) => {
                             </Form.Group>
                             <Form.Group controlId="formBasicCheckbox">
                             <Form.Label>Support</Form.Label>
-                              <Form.Control as="select">
+                              <Form.Control  name="support" as="select">
                                 {
                                   props.supports.map((item,i)=>{
                                     return(
-                                    <option key={i}>{item.nom}</option>
+                                    <option value={item._id} key={i}>{item.nom}</option>
                                     )
                                   })
                                 }
@@ -44,7 +44,7 @@ const UpdateFormComponent = (props) => {
                             </Form.Group>
                             <Form.Group >
                               <Form.Label>Prix</Form.Label>
-                              <Form.Control type="text" placeholder="Nouveau prix" />
+                              <Form.Control name="prix" type="text" placeholder="Nouveau prix">{props.price}</Form.Control>
                             </Form.Group>
                             <Button variant="primary" type="submit">
                               Valider

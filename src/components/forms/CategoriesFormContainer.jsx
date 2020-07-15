@@ -22,7 +22,13 @@ class CategoriesFormContainer extends React.Component {
            delete_show:false,
            update_show:false,
            add_show:false,
+           id_image_focused:null,
+           price_image_focused:null,
+           annee_image_focused:null,
+           cat_id_image_focused:null,
+           support_id_image_focused:null
         };
+        
         this.images=[];
         this.should_be_updated=true;
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,12 +40,17 @@ class CategoriesFormContainer extends React.Component {
         this.handleShowUpdate = this.handleShowUpdate.bind(this);
         this.handleCloseAdd = this.handleCloseAdd.bind(this);
         this.handleShowAdd = this.handleShowAdd.bind(this);
+        this.handleForm = this.handleForm.bind(this);
+        this.handleFormAdd = this.handleFormAdd.bind(this);
       }
       handleClose(){
         this.setState({show:false});
       }
       handleShow=param=> e=>{
-        this.setState({show:true,img_focused:param.name,img_focused_src:param.uri_img});
+        
+        this.setState({ support_id_image_focused:param.support,cat_id_image_focused:param.cat_id,annee_image_focused:param.annee,price_image_focused:param.prix,
+          id_image_focused:param._id,show:true,img_focused:param.name,img_focused_src:param.uri_img});
+          console.log(this.state.annee_image_focused);
 
       }
       handleCloseDelete(){
@@ -61,6 +72,47 @@ class CategoriesFormContainer extends React.Component {
       handleShowAdd(){
         //fetch data
         this.setState({add_show:true});
+      }
+      handleForm(e){
+        let form=e.target
+        let tab_json={_id:this.state.id_image_focused,name:form.titre.value,cat_id:form.categorie.value,annee:form.annee.value,prix:form.prix.value,support_id:form.support.value};
+        console.log(form.categorie.value);
+        //e.preventDefault();
+        // update axios
+        axios.post('http://localhost:3000/images/update/'+this.state.id_image_focused, {body:tab_json})
+        .then(result =>{
+          console.log('resultat:');
+          console.log(result);
+        })
+        .catch(error =>{
+            console.log("error: "+error);
+        });
+      }
+      async handleFormAdd(e){
+        let form=e.target
+        //e.preventDefault();
+        
+        const toBase64 = file => new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = error => reject(error);
+        });
+        console.log('base64');
+        let base64=await toBase64(e.target.img.files[0]);
+        let tab_json={auteur:localStorage.getItem('id_artist'), img:base64,id:this.state.id_image_focused,name:form.titre.value,cat_id:form.categorie.value,annee:form.annee.value,prix:form.prix.value,support_id:form.support.value};
+        console.log('tab');
+        console.log(tab_json);
+       
+        // update axios
+        axios.post('http://localhost:3000/images/post/', {body:tab_json})
+        .then(result =>{
+          console.log('resultat:');
+          console.log(result);
+        })
+        .catch(error =>{
+            console.log("error: "+error);
+        });
       }
     componentDidMount() { 
         let items_cat=[];
@@ -176,7 +228,7 @@ class CategoriesFormContainer extends React.Component {
             <Modal show={this.state.delete_show} onHide={this.handleCloseDelete}>
                 <Modal.Header closeButton>  
                 </Modal.Header>
-                <Modal.Body>Etes-vous sûr de vouloir continuer ?
+                <Modal.Body>Etes-vous sûr de vouloir supprimer ceci?
                 </Modal.Body>
                 <Modal.Footer>
                           <Button variant="success" onClick={this.handleCloseDelete}>
@@ -187,8 +239,8 @@ class CategoriesFormContainer extends React.Component {
                           </Button>
                 </Modal.Footer>
             </Modal>
-            <UpdateFormComponent cats={this.state.categories} supports={this.state.supports} show={this.state.update_show} onHide={this.handleCloseUpdate}/>
-            <AddFormComponent cats={this.state.categories} supports={this.state.supports} show={this.state.add_show} onHide={this.handleCloseAdd}/>   
+            <UpdateFormComponent submit={this.handleForm}  cats={this.state.categories} supports={this.state.supports} show={this.state.update_show} onHide={this.handleCloseUpdate}/>
+            <AddFormComponent cat_id ={this.state.cat_id_image_focused} support_id={this.state.support_id_image_focused} year={this.state.annee_image_focused} price={this.state.price_image_focused} submit={this.handleFormAdd} cats={this.state.categories} supports={this.state.supports} show={this.state.add_show} onHide={this.handleCloseAdd}/>   
         </div>
       );
     }

@@ -18,17 +18,19 @@ class LoginContainer extends React.Component {
       }
 
       LogginHandler(data){
-        this.setState({
-          isLoggedIn:true,
-          name:data.name,
-          token:data.accesToken,
-          email:data.email,
-          id:data.id,
-          picture:data.picture,
-          userId:data.userId
-        });
-        let test_id=JSON.parse(localStorage.getItem('admins'));
-        console.log("id: "+test_id[0].facebook_id);
+        if(this.state.isLoggedIn===false){
+          this.setState({
+            isLoggedIn:true,
+            name:data.name,
+            token:data.accesToken,
+            email:data.email,
+            id:data.id,
+            picture:data.picture,
+            userId:data.userId
+          });
+          let test_id=JSON.parse(localStorage.getItem('admins'));
+          console.log("id: "+test_id[0].facebook_id);
+        }
       }
       LoggoutHandler(){
         console.log("deconnexion effectuee");
