@@ -9,7 +9,7 @@ const NavBar = () => {
                     onSelect={(selected) => {
                         // Add your code here
                     }}
-                    style={{backgroundColor: '#000000',position: 'fixed'}}>
+                    style={{backgroundColor: '#84a8f8',position: 'fixed'}}>
                 <SideNav.Toggle />
                 <SideNav.Nav defaultSelected="home">
                     <NavItem eventKey="home">

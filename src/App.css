@@ -2,12 +2,13 @@
   width: 150px;
   height:35px;  
   border-radius: 4px;
-  background: #3b5998;
+  background: #7299ee;
   color:white;
   border:0px transparent;  
   text-align: center;
   margin:5px;
   display: inline-block;
+  /*background: #3b5998;*/
 }
 .tableaux{
   width:700px;
@@ -25,6 +26,7 @@
 }
 .logo_add_image:hover{
   cursor: pointer;
+  
 }
 .focus{
   object-fit: cover;
@@ -51,17 +53,19 @@
   margin:5px;
   display: inline-block;
 }
-#accueil_button{
-  display:inline-block;
+.accueil_button{
+  display:block;
+  max-width: 100%;
   margin-left: 140px;
   margin-right: 150px;
   padding: 10px;
-  width: 130px;
+  width: 100%;
   text-align: center;
   /*margin-top: 250px;*/
 }
-#accueil{
+.accueil_image{
  padding-top: 50px;
+ padding-bottom: 10px;
   display: block;
   margin-left: auto;
   margin-right: auto;

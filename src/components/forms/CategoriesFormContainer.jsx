@@ -42,11 +42,24 @@ class CategoriesFormContainer extends React.Component {
         this.handleShowAdd = this.handleShowAdd.bind(this);
         this.handleForm = this.handleForm.bind(this);
         this.handleFormAdd = this.handleFormAdd.bind(this);
+        this.deleteImg = this.deleteImg.bind(this);
+      }
+      deleteImg(){  
+        if(this.state.id_image_focused!==null){   
+          axios.delete('http://localhost:3000/images/delete/'+this.state.id_image_focused)
+          .then(result =>{
+            
+          })
+          .catch(error =>{
+              console.log("error: "+error);
+          });
+          //this.handleCloseDelete();
+        }
       }
       handleClose(){
         this.setState({show:false});
       }
-      handleShow=param=> e=>{
+      handleShow= param=>e=>{
         
         this.setState({ support_id_image_focused:param.support,cat_id_image_focused:param.cat_id,annee_image_focused:param.annee,price_image_focused:param.prix,
           id_image_focused:param._id,show:true,img_focused:param.name,img_focused_src:param.uri_img});
@@ -228,15 +241,17 @@ class CategoriesFormContainer extends React.Component {
             <Modal show={this.state.delete_show} onHide={this.handleCloseDelete}>
                 <Modal.Header closeButton>  
                 </Modal.Header>
-                <Modal.Body>Etes-vous sûr de vouloir supprimer ceci?
+                <Modal.Body>Etes-vous sûr de vouloir continuer?
                 </Modal.Body>
                 <Modal.Footer>
-                          <Button variant="success" onClick={this.handleCloseDelete}>
-                           Oui
-                          </Button>
-                          <Button variant="danger" onClick={this.handleCloseDelete}>
-                             Non
-                          </Button>
+                          <form onSubmit={this.deleteImg()}>
+                            <Button variant="danger" type ="submit">
+                              supprimer
+                            </Button>
+                            <Button variant="primary" onClick={this.handleCloseDelete}>
+                              Non
+                            </Button>
+                            </form>
                 </Modal.Footer>
             </Modal>
             <UpdateFormComponent submit={this.handleForm}  cats={this.state.categories} supports={this.state.supports} show={this.state.update_show} onHide={this.handleCloseUpdate}/>

@@ -1,16 +1,16 @@
 import React from 'react';
 import '../../App.css';
-import ImgContainer from '../images/ImgContainer';
 import NameContainer from '../names/NameContainer';
 import { Container } from 'react-bootstrap';
-
+import accueil from '../../imgs/paezapp.png';
+import Pic from 'react-bootstrap/Image'
 function WelcomePage() {
     return (
         <div>
             <Container>
-            <ImgContainer nom='Accueil'/>
+                <Pic className='accueil_image' src={accueil} alt="Accueil" fluid roundedCircle />
             </Container>
-            <NameContainer/>
+                <NameContainer/>
         </div>
     );
 }

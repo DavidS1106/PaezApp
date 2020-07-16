@@ -5,9 +5,9 @@ import {Link} from "react-router-dom";
 const Name = ({name}) => {
     return (
       <td>
-        <Col id="accueil_button">
+        <Col >
           <Link to={{ pathname:"/artists", state: { artist_name: name }}}>
-            <Button id="accueil_button" variant="outline-dark" size="lg">{name}</Button>
+            <Button className="accueil_button" variant="outline-info" size="lg" >{name}</Button>
           </Link>
         </Col>
       </td>
