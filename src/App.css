@@ -1,6 +1,5 @@
 .btnFacebook { 
-  width: 150px;
-  height:35px;  
+  
   border-radius: 4px;
   background: #7299ee;
   color:white;
@@ -8,7 +7,10 @@
   text-align: center;
   margin:5px;
   display: inline-block;
-  /*background: #3b5998;*/
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  
 }
 .tableaux{
   width:700px;
@@ -28,6 +30,7 @@
   cursor: pointer;
   
 }
+
 .focus{
   object-fit: cover;
   width: 100%;
@@ -43,15 +46,13 @@
   padding:20px;
 }
 #deco_facebook{
-  width: 130px;
-  height:35px;  
-  border-radius: 4px;
-  background: #3b5998;
+   
+  
+  background: #7299ee;
   color:white;
   border:0px transparent;  
   text-align: center;
-  margin:5px;
-  display: inline-block;
+  
 }
 .accueil_button{
   display:block;
@@ -64,8 +65,7 @@
   /*margin-top: 250px;*/
 }
 .accueil_image{
- padding-top: 50px;
- padding-bottom: 10px;
+  
   display: block;
   margin-left: auto;
   margin-right: auto;

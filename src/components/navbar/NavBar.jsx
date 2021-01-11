@@ -36,14 +36,7 @@ const NavBar = () => {
                             Carna
                         </NavText>
                     </NavItem>
-                    <NavItem>
-                        <NavText>
-                            <LoginContainer/>
-                        </NavText>
-                        <NavIcon>
-                           {/* <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em'}} />*/}
-                        </NavIcon>
-                    </NavItem>
+                    
                 </SideNav.Nav>
             </SideNav>
 

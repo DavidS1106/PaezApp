@@ -5,12 +5,15 @@ import { Container } from 'react-bootstrap';
 import accueil from '../../imgs/paezapp.png';
 import Pic from 'react-bootstrap/Image'
 function WelcomePage() {
+    if(localStorage.getItem('isAdmin')===undefined){
+        localStorage.setItem('isAdmin',"false");
+    }   
     return (
         <div>
             <Container>
                 <Pic className='accueil_image' src={accueil} alt="Accueil" fluid roundedCircle />
             </Container>
-                <NameContainer/>
+            <NameContainer/>
         </div>
     );
 }

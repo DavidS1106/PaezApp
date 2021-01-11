@@ -1,6 +1,7 @@
 import React from 'react';
 import FacebookLogin from 'react-facebook-login';
 import { Button } from 'react-bootstrap';
+import {Redirect} from "react-router-dom";
 //import ReactDOM from 'react-dom';
 const LoginFacebook = (props) => {
     
@@ -13,14 +14,17 @@ const LoginFacebook = (props) => {
   
     if(props.state.isLoggedIn===false){
         return(
-            <FacebookLogin
-            appId="692156871634804"
-            autoLoad={true}
-            fields="name,email,picture"
-            callback={reponseFacebook}
-            cssClass="btnFacebook"
-            icon="fa-facebook"
-            />
+            <div>
+                <FacebookLogin
+                appId="692156871634804"
+                autoLoad={false}
+                fields="name,email,picture"
+                callback={reponseFacebook}
+                cssClass="btnFacebook"
+                icon="fa-facebook"
+                />
+                
+            </div>
         )
     }
     else{ 
@@ -29,12 +33,16 @@ const LoginFacebook = (props) => {
                 width:'400px',
                 margin:'auto',
                 background:'f4f4f4',
-                padding:'20px'
+                padding:'10px',
+                position: 'absolute',
+                right: '1px',
+                top: '5px',
             }}>
                 <img src={props.state.picture.data.url} alt={props.state.name}/>
                 <br></br>
                 <p>Bienvenue {props.state.name}</p>
                 <Button onClick={props.loggedOut} variant="primary" id="deco_facebook">Se déconnecter</Button>
+                
             </div>
         )
     }

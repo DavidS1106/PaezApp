@@ -9,9 +9,17 @@ import { Button} from 'react-bootstrap';
 import UpdateFormComponent from './UpdateFormComponent';
 import AddFormComponent from './AddFormComponent';
 import logo from '../../imgs/add_image.png';
+
+
 class CategoriesFormContainer extends React.Component {
     constructor(props) {
         super(props);
+        let isAdmin=false;
+        console.log("rerender!")
+        if(localStorage.getItem('isAdmin')==="true" && this.props.isLoggedIn===true){
+          isAdmin=true;
+          console.log("Admin!")
+        }
         this.state = {
             categories:[],
             supports:[],
@@ -26,7 +34,8 @@ class CategoriesFormContainer extends React.Component {
            price_image_focused:null,
            annee_image_focused:null,
            cat_id_image_focused:null,
-           support_id_image_focused:null
+           support_id_image_focused:null,
+           isAdmin:isAdmin
         };
         
         this.images=[];
@@ -61,8 +70,8 @@ class CategoriesFormContainer extends React.Component {
       }
       handleShow= param=>e=>{
         
-        this.setState({ support_id_image_focused:param.support,cat_id_image_focused:param.cat_id,annee_image_focused:param.annee,price_image_focused:param.prix,
-          id_image_focused:param._id,show:true,img_focused:param.name,img_focused_src:param.uri_img});
+        this.setState({ support_id_image_focused:param.support,cat_id_image_focused:param.cat_id,annee_image_focused:param.annee,
+          price_image_focused:param.prix,id_image_focused:param._id,show:true,img_focused:param.name,img_focused_src:param.uri_img});
           console.log(this.state.annee_image_focused);
 
       }
@@ -104,9 +113,18 @@ class CategoriesFormContainer extends React.Component {
       async handleFormAdd(e){
         let form=e.target
         //e.preventDefault();
-        
+        // const resizeFile = (file) => new Promise(resolve => {
+        //   Resizer.imageFileResizer(file, 300, 300, 'PNG', 1, 0,
+        //   uri => {
+        //     resolve(uri);
+        //   },
+        //   'base64'
+        //   );
+        // });
+        //transform to base64
         const toBase64 = file => new Promise((resolve, reject) => {
           const reader = new FileReader();
+          //resize img
           reader.readAsDataURL(file);
           reader.onload = () => resolve(reader.result);
           reader.onerror = error => reject(error);
@@ -117,7 +135,7 @@ class CategoriesFormContainer extends React.Component {
         console.log('tab');
         console.log(tab_json);
        
-        // update axios
+        
         axios.post('http://localhost:3000/images/post/', {body:tab_json})
         .then(result =>{
           console.log('resultat:');
@@ -210,14 +228,16 @@ class CategoriesFormContainer extends React.Component {
       return (
         <div>
             <CategoriesForm cats={this.state.categories} submit={this.handleSubmit} />
-            <img onClick={this.handleShowAdd}className='logo_add_image' src={logo} alt="add"/>
+            {
+              this.state.isAdmin ? <img onClick={this.handleShowAdd}className='logo_add_image' src={logo} alt="add"/> : null
+            }
             {
                             
                             this.images.map((item,i) => {
                                 return (
                                     <div className="tableaux" onClick={this.handleShow(item)} key={i}
                                     >
-                                      <ImgContainer  nom={item.name}/>
+                                      <ImgContainer className="img_displayed"  nom={item.name}/>
                                     </div>
                                 );
                             })
@@ -230,12 +250,19 @@ class CategoriesFormContainer extends React.Component {
                 <Modal.Body><img className="focus" src ={this.state.img_focused_src} alt={this.state.img_focused}/>
                 </Modal.Body>
                 <Modal.Footer>
-                          <Button variant="primary" onClick={this.handleShowUpdate}>
-                            Modifier
-                          </Button>
-                          <Button variant="danger" onClick={this.handleShowDelete}>
-                              Supprimer
-                          </Button>
+                          {
+                            this.state.isAdmin ?
+                            <Button variant="primary" onClick={this.handleShowUpdate}>
+                              Modifier
+                            </Button> : null
+                          }
+                          {
+                            this.state.isAdmin ?
+                            <Button variant="danger" onClick={this.handleShowDelete}>
+                                Supprimer
+                            </Button> :null
+                            
+                          }
                 </Modal.Footer>
             </Modal>
             <Modal show={this.state.delete_show} onHide={this.handleCloseDelete}>
