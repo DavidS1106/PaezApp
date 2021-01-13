@@ -6,21 +6,15 @@ class ImgContainer extends React.Component {
         super(props);
         this.state = {
           img:'' ,
-          name:props.nom,
+          name:"",
         };
       }
 
 
     componentDidMount() {
-      
-        axios.get('http://localhost:3000/images/name/'+this.state.name)
-            .then(result =>{  
-              let obj=result.data;             
-              this.setState({ img: obj.uri_img });
-            })
-            .catch(error =>{
-                console.log("error image: "+error);
-            });
+      if(this.props.img!==undefined){
+        this.setState({name:this.props.img.name,img:this.props.img.uri_img})
+      }
     }
     
 

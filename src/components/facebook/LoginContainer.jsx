@@ -6,11 +6,6 @@ import IsConnectedContext from '../context/IsConnectedContext';
 class LoginContainer extends React.Component {
     constructor(props) {
         super(props);
-        // let token=localStorage.getItem('token');
-        // let islogged=false;
-        // if(token!=null){
-        //   islogged=true;
-        // }
         this.state = { 
           isLoggedIn:false,
           name:null,
@@ -67,7 +62,6 @@ class LoginContainer extends React.Component {
       return (
         <div>
           <LoginFacebook state={this.state} loggedOut={this.LoggoutHandler} loggedIn={this.LogginHandler}/>
-          <IsConnectedContext.Provider value={this.state.isLoggedIn}/>
         </div>
       );
     }

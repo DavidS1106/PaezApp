@@ -14,15 +14,10 @@ import logo from '../../imgs/add_image.png';
 class CategoriesFormContainer extends React.Component {
     constructor(props) {
         super(props);
-        let isAdmin=false;
-        console.log("rerender!")
-        if(localStorage.getItem('isAdmin')==="true" && this.props.isLoggedIn===true){
-          isAdmin=true;
-          console.log("Admin!")
-        }
+        
         this.state = {
-            categories:[],
-            supports:[],
+           categories:[],
+           supports:[],
            rendered_images:[],
            show :false,
            img_focused:null,
@@ -35,12 +30,12 @@ class CategoriesFormContainer extends React.Component {
            annee_image_focused:null,
            cat_id_image_focused:null,
            support_id_image_focused:null,
-           isAdmin:isAdmin
+           isAdmin:false
         };
         
         this.images=[];
         this.should_be_updated=true;
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleCatsSubmit = this.handleCatsSubmit.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleShow = this.handleShow.bind(this);
         this.handleCloseDelete = this.handleCloseDelete.bind(this);
@@ -57,12 +52,15 @@ class CategoriesFormContainer extends React.Component {
         if(this.state.id_image_focused!==null){   
           axios.delete('http://localhost:3000/images/delete/'+this.state.id_image_focused)
           .then(result =>{
+            this.setState({delete_show:false});
+            this.fetchingImages();
             
           })
           .catch(error =>{
               console.log("error: "+error);
           });
           //this.handleCloseDelete();
+          
         }
       }
       handleClose(){
@@ -100,11 +98,10 @@ class CategoriesFormContainer extends React.Component {
         let tab_json={_id:this.state.id_image_focused,name:form.titre.value,cat_id:form.categorie.value,annee:form.annee.value,prix:form.prix.value,support_id:form.support.value};
         console.log(form.categorie.value);
         //e.preventDefault();
-        // update axios
+        // update 
         axios.post('http://localhost:3000/images/update/'+this.state.id_image_focused, {body:tab_json})
         .then(result =>{
-          console.log('resultat:');
-          console.log(result);
+         this.fetchingImages();
         })
         .catch(error =>{
             console.log("error: "+error);
@@ -138,14 +135,15 @@ class CategoriesFormContainer extends React.Component {
         
         axios.post('http://localhost:3000/images/post/', {body:tab_json})
         .then(result =>{
-          console.log('resultat:');
-          console.log(result);
+          
+          this.fetchingImages();
         })
         .catch(error =>{
             console.log("error: "+error);
         });
+        
       }
-    componentDidMount() { 
+    componentDidMount() {
         let items_cat=[];
         //categories
         axios.get('http://localhost:3000/categories' /*+ DEFAULT_QUERY*/)
@@ -157,7 +155,7 @@ class CategoriesFormContainer extends React.Component {
             }
            
             this.setState({ categories: items_cat,});  
-            
+            this.fetchingImages();
         })
         .catch(error =>{
             console.log("error: "+error);
@@ -178,14 +176,17 @@ class CategoriesFormContainer extends React.Component {
         .catch(error =>{
             console.log("error: "+error);
         });
+        
     }
     fetchingImages= async()=>{
       let tab=this.state.categories;
       this.images=[];
         for(let value of tab.entries()){
           if(value[1].bool===true){
-             await axios.get('http://localhost:3000/images/id/'+value[1].object_id)
+             await axios.get('http://localhost:3000/images/id/'+localStorage.getItem('id_artist')+'/'+value[1].object_id)
               .then(result =>{
+                console.log("images")
+                
                 if(  this.images.length!==0){
                   for(let i=0;i<result.data.length;i++){
                     this.images[ this.images.length+i]=result.data[i];
@@ -200,17 +201,12 @@ class CategoriesFormContainer extends React.Component {
               });
           }
         }
-        this.setState({ rendered_images:this.images});  
+        this.setState({ rendered_images:this.images});
+         
     }
-    componentDidUpdate(){
-     if ( this.should_be_updated===true) {
-        this.should_be_updated=false;
-        this.fetchingImages();
-      }
-     
-    }
-    handleSubmit(event) {
-        this.should_be_updated=true;
+    
+    handleCatsSubmit(event) {
+        //this.should_be_updated=true;
         let target = event.target;
         let value = target.value;
         let tab= this.state.categories;
@@ -221,23 +217,24 @@ class CategoriesFormContainer extends React.Component {
         else{
           tab[value].bool=true;
         } 
-        this.setState({ categories: tab }); 
+        this.fetchingImages();
+        //this.setState({ categories: tab }); 
         //event.preventDefault();
     }
     render() {
       return (
         <div>
-            <CategoriesForm cats={this.state.categories} submit={this.handleSubmit} />
+            <CategoriesForm cats={this.state.categories} submit={this.handleCatsSubmit} />
             {
-              this.state.isAdmin ? <img onClick={this.handleShowAdd}className='logo_add_image' src={logo} alt="add"/> : null
+              this.props.isAdmin ? <img onClick={this.handleShowAdd}className='logo_add_image' src={logo} alt="add"/> : null
             }
             {
                             
-                            this.images.map((item,i) => {
+                            this.state.rendered_images.map((item,i) => {
                                 return (
                                     <div className="tableaux" onClick={this.handleShow(item)} key={i}
                                     >
-                                      <ImgContainer className="img_displayed"  nom={item.name}/>
+                                      <ImgContainer className="img_displayed"  img={item}/>
                                     </div>
                                 );
                             })
@@ -251,13 +248,13 @@ class CategoriesFormContainer extends React.Component {
                 </Modal.Body>
                 <Modal.Footer>
                           {
-                            this.state.isAdmin ?
+                            this.props.isAdmin ?
                             <Button variant="primary" onClick={this.handleShowUpdate}>
                               Modifier
                             </Button> : null
                           }
                           {
-                            this.state.isAdmin ?
+                            this.props.isAdmin ?
                             <Button variant="danger" onClick={this.handleShowDelete}>
                                 Supprimer
                             </Button> :null
@@ -271,9 +268,9 @@ class CategoriesFormContainer extends React.Component {
                 <Modal.Body>Etes-vous sûr de vouloir continuer?
                 </Modal.Body>
                 <Modal.Footer>
-                          <form onSubmit={this.deleteImg()}>
-                            <Button variant="danger" type ="submit">
-                              supprimer
+                          <form >
+                            <Button variant="danger" onClick={this.deleteImg}>
+                              Supprimer
                             </Button>
                             <Button variant="primary" onClick={this.handleCloseDelete}>
                               Non
