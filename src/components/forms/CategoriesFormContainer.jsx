@@ -1,15 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 import CategoriesForm from './CategoriesForms';
-//import ModalImage from "react-modal-image";
-//import FacebookLogin from 'react-facebook-login';
 import { Modal } from 'react-bootstrap';
 import ImgContainer from '../images/ImgContainer';
 import { Button} from 'react-bootstrap';
 import UpdateFormComponent from './UpdateFormComponent';
 import AddFormComponent from './AddFormComponent';
 import logo from '../../imgs/add_image.png';
-
+import Resizer from "react-image-file-resizer";
+import { Container,Row,Col } from 'react-bootstrap';
 
 class CategoriesFormContainer extends React.Component {
     constructor(props) {
@@ -30,7 +29,6 @@ class CategoriesFormContainer extends React.Component {
            annee_image_focused:null,
            cat_id_image_focused:null,
            support_id_image_focused:null,
-           isAdmin:false
         };
         
         this.images=[];
@@ -47,6 +45,17 @@ class CategoriesFormContainer extends React.Component {
         this.handleForm = this.handleForm.bind(this);
         this.handleFormAdd = this.handleFormAdd.bind(this);
         this.deleteImg = this.deleteImg.bind(this);
+      }
+      arrayToMatrice(numberInArray){
+        const rows = this.images.reduce(function (rows, key, index) { 
+          return (index % numberInArray === 0 ? rows.push([key]) 
+            : rows[rows.length-1].push(key)) && rows;
+        }, []);
+
+        console.log("rows");
+        
+        this.setState({ rendered_images:rows});
+        console.log(this.state.rendered_images);
       }
       deleteImg(){  
         if(this.state.id_image_focused!==null){   
@@ -107,17 +116,11 @@ class CategoriesFormContainer extends React.Component {
             console.log("error: "+error);
         });
       }
+      
       async handleFormAdd(e){
         let form=e.target
-        //e.preventDefault();
-        // const resizeFile = (file) => new Promise(resolve => {
-        //   Resizer.imageFileResizer(file, 300, 300, 'PNG', 1, 0,
-        //   uri => {
-        //     resolve(uri);
-        //   },
-        //   'base64'
-        //   );
-        // });
+        e.preventDefault();
+        
         //transform to base64
         const toBase64 = file => new Promise((resolve, reject) => {
           const reader = new FileReader();
@@ -126,11 +129,9 @@ class CategoriesFormContainer extends React.Component {
           reader.onload = () => resolve(reader.result);
           reader.onerror = error => reject(error);
         });
-        console.log('base64');
+        
         let base64=await toBase64(e.target.img.files[0]);
         let tab_json={auteur:localStorage.getItem('id_artist'), img:base64,id:this.state.id_image_focused,name:form.titre.value,cat_id:form.categorie.value,annee:form.annee.value,prix:form.prix.value,support_id:form.support.value};
-        console.log('tab');
-        console.log(tab_json);
        
         
         axios.post('http://localhost:3000/images/post/', {body:tab_json})
@@ -144,6 +145,7 @@ class CategoriesFormContainer extends React.Component {
         
       }
     componentDidMount() {
+        
         let items_cat=[];
         //categories
         axios.get('http://localhost:3000/categories' /*+ DEFAULT_QUERY*/)
@@ -184,13 +186,12 @@ class CategoriesFormContainer extends React.Component {
         for(let value of tab.entries()){
           if(value[1].bool===true){
              await axios.get('http://localhost:3000/images/id/'+localStorage.getItem('id_artist')+'/'+value[1].object_id)
-              .then(result =>{
-                console.log("images")
-                
-                if(  this.images.length!==0){
+              .then(result =>{               
+                if(this.images.length!==0){
                   for(let i=0;i<result.data.length;i++){
                     this.images[ this.images.length+i]=result.data[i];
                   }
+                  
                 }
                 else if(  this.images.length===0){
                   this.images=result.data;
@@ -201,12 +202,10 @@ class CategoriesFormContainer extends React.Component {
               });
           }
         }
-        this.setState({ rendered_images:this.images});
-         
+        this.arrayToMatrice(3);
     }
     
     handleCatsSubmit(event) {
-        //this.should_be_updated=true;
         let target = event.target;
         let value = target.value;
         let tab= this.state.categories;
@@ -218,28 +217,41 @@ class CategoriesFormContainer extends React.Component {
           tab[value].bool=true;
         } 
         this.fetchingImages();
-        //this.setState({ categories: tab }); 
-        //event.preventDefault();
     }
     render() {
       return (
         <div>
-            <CategoriesForm cats={this.state.categories} submit={this.handleCatsSubmit} />
+          <Container>
+            <Row>
+            <Col>
+              <CategoriesForm cats={this.state.categories} submit={this.handleCatsSubmit} />
+            </Col>
+            </Row>
+            <Row className="padding_bot">
+            <Col>
             {
-              this.props.isAdmin ? <img onClick={this.handleShowAdd}className='logo_add_image' src={logo} alt="add"/> : null
+              this.props.isLoggedIn ? <div><img onClick={this.handleShowAdd}className='logo_add_image' src={logo} alt="add"/> </div> : null
             }
+            </Col>
+            </Row>
             {
-                            
-                            this.state.rendered_images.map((item,i) => {
-                                return (
-                                    <div className="tableaux" onClick={this.handleShow(item)} key={i}
-                                    >
-                                      <ImgContainer className="img_displayed"  img={item}/>
-                                    </div>
-                                );
-                            })
+                             
+                            this.state.rendered_images.map( (row,k) => (
+                              <Row className ="padding_top" key={k}>
+                                {
+                                  row.map( (item,i) =>(
+                                    <Col md={{offset:i}} key={i}>
+                                      <div  className="tableaux" onClick={this.handleShow(item)} >
+                                        <ImgContainer  className="img_displayed"  img={item}/>
+                                      </div>
+                                    </Col>
+                                  ))
+                                }
+                              </Row>
+                            ))
                             
             }
+          </Container>
             <Modal size="lg" show={this.state.show} onHide={this.handleClose}>
                <Modal.Header closeButton>
                   <Modal.Title>{this.state.img_focused}</Modal.Title>
@@ -248,13 +260,13 @@ class CategoriesFormContainer extends React.Component {
                 </Modal.Body>
                 <Modal.Footer>
                           {
-                            this.props.isAdmin ?
+                            this.props.isLoggedIn ?
                             <Button variant="primary" onClick={this.handleShowUpdate}>
                               Modifier
                             </Button> : null
                           }
                           {
-                            this.props.isAdmin ?
+                            this.props.isLoggedIn ?
                             <Button variant="danger" onClick={this.handleShowDelete}>
                                 Supprimer
                             </Button> :null

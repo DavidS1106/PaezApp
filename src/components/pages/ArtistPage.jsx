@@ -1,11 +1,11 @@
 import React from 'react';
 import '../../App.css';
-import { Container } from 'react-bootstrap';
 import { useLocation } from "react-router";
-import IsConnectedProvider from '../context/IsConnectedProvider';
+import NavBarContainer from '../navbar/NavBarContainer';
+import CategoriesFormContainer from '../forms/CategoriesFormContainer';
 
 
-function ArtistPage() {
+function ArtistPage(props) {
     
     let location= useLocation();
     if(location.state!==undefined){
@@ -22,9 +22,8 @@ function ArtistPage() {
 
     return (
         <div>
-            <Container>
-                <IsConnectedProvider/>
-            </Container>
+                <NavBarContainer setIsLoggedIn={props.setIsLoggedIn} isLoggedIn={props.isLoggedIn}/>
+                <CategoriesFormContainer isLoggedIn={props.isLoggedIn} />
         </div>
     );
 }

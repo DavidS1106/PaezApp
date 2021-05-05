@@ -1,49 +1,45 @@
-import React from 'react';
-import FacebookLogin from 'react-facebook-login';
-import { Button } from 'react-bootstrap';
-import {Redirect} from "react-router-dom";
-import Pic from 'react-bootstrap/Image';
+import React, { useState, useEffect } from 'react';
+import { Button, Form,  Modal/*, Row, Col, Container*/ } from 'react-bootstrap';
+//import {Redirect} from "react-router-dom";
 
 const LoginFacebook = (props) => {
     
-    const reponseFacebook = (response) => {
-        console.log(response);
-        if(response.accessToken!== null && response.accessToken!==undefined){
-            props.loggedIn(response);
-        }
-    }
-  
-    if(props.state.isLoggedIn===false){
+    const [isModalConnectionNeeded, setModalConnection] = useState(false);
+
+    useEffect(() => {
+        //console.log(isModalConnectionNeeded);
+    });
+
+
+    if(props.isLoggedIn===false){
         return(
             <div>
-                <FacebookLogin
-                appId="692156871634804"
-                autoLoad={props.state.isLoggedIn}
-                fields="name,email,picture"
-                callback={reponseFacebook}
-                cssClass="btnFacebook"
-                icon="fa-facebook"
-                />
-                
+                <Button onClick={() => setModalConnection(true)} variant="primary">Se connecter</Button>
+
+                <Modal show={isModalConnectionNeeded}  onHide={() => setModalConnection(false)}>
+                    <Modal.Header closeButton>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form onSubmit={props.loggedIn}>
+                            <Form.Group controlId="login">
+                                <Form.Control name="login" type="text" placeholder="Login" ></Form.Control>
+                            </Form.Group>
+                            <Form.Group controlId="password">
+                                <Form.Control name="password" type="password" placeholder="Password" ></Form.Control>
+                            </Form.Group>
+                            <Button variant="primary" type="submit">
+                                Valider
+                            </Button>
+                        </Form>  
+                    </Modal.Body>
+                </Modal>             
             </div>
         )
     }
     else{ 
         return(
-            <div style={{
-                width:'400px',
-                margin:'auto',
-                background:'f4f4f4',
-                padding:'10px',
-                position: 'absolute',
-                right: '1px',
-                top: '5px',
-            }}>
-                <Pic src={props.state.picture.data.url} alt={props.state.name} fluid roundedCircle/>
-                <br></br>
-                <p>Bienvenue {props.state.name}</p>
-                <Button onClick={props.loggedOut} variant="primary" id="deco_facebook">Se déconnecter</Button>
-                
+            <div>
+                <Button onClick={props.loggedOut} variant="primary" >Se déconnecter</Button>               
             </div>
         )
     }

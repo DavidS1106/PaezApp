@@ -1,6 +1,8 @@
 import React from 'react';
 import LoginContainer from '../facebook/LoginContainer';
 import CategoriesFormContainer from '../forms/CategoriesFormContainer';
+import { Row, Col, Container } from 'react-bootstrap';
+
 class IsConnectedProvider extends React.Component {
     constructor(props) {
         super(props);
@@ -29,8 +31,16 @@ class IsConnectedProvider extends React.Component {
     render() {
         return (
             <div>
-                <LoginContainer logIn={this.logIn} logOut={this.logOut} isLoggedIn={this.state.isLoggedIn} />
-                <CategoriesFormContainer isAdmin={this.state.isLoggedIn}/>             
+                <Container>
+                <Row>
+                <Col ml="auto">
+                    <LoginContainer logIn={this.logIn} logOut={this.logOut} isLoggedIn={this.state.isLoggedIn} />
+                </Col>
+                </Row>
+                <Row>
+                <CategoriesFormContainer isAdmin={this.state.isLoggedIn}/>
+                </Row>
+                </Container>             
             </div>
         );
     }

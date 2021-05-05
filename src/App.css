@@ -1,34 +1,33 @@
-.btnFacebook { 
-  
-  border-radius: 4px;
-  background: #7299ee;
-  color:white;
-  border:0px transparent;  
-  text-align: center;
-  margin:5px;
-  display: inline-block;
-  position: absolute;
-  right: 5px;
-  top: 5px;
-  
-}
+
 .tableaux{
-  width:700px;
-  margin: auto;
-  padding:50px;
-  transition: transform .2s; 
+  display: flex;
+  width: 150%;
+  height: 150%;
+  transition: transform .3s; 
+
+  max-width: 250px;
+  max-height: 250px;
 }
 .tableaux:hover{
-  transform: scale(1.5);
+  transform: scale(1.2);
   cursor: pointer;
 }
 .logo_add_image{
-  width:5%;
-  height: 5%;
+  width: 3%;
+  height: 3%;
 }
 .logo_add_image:hover{
   cursor: pointer;
-  
+}
+.padding_top{
+  padding-top: 100px;
+}
+.little_padding_top{
+  padding-top: 10px;
+}
+
+.padding_bot{
+  margin-bottom: 50px;
 }
 
 .focus{
@@ -41,19 +40,11 @@
   position: fixed;
 }
 .tableau_hovered{
-  width:1000px;
+  width: 200%;
   margin: auto;
-  padding:20px;
+  padding:auto;
 }
-#deco_facebook{
-   
-  
-  background: #7299ee;
-  color:white;
-  border:0px transparent;  
-  text-align: center;
-  
-}
+
 .accueil_button{
   display:block;
   max-width: 100%;
@@ -62,7 +53,6 @@
   padding: 10px;
   width: 100%;
   text-align: center;
-  /*margin-top: 250px;*/
 }
 .accueil_image{
   
@@ -72,18 +62,6 @@
   width: 60%;
   height: 50%;
   background: center;
-  /*full screen photo
-  min-height: 100%;
-  min-width: 1024px;
-	
-
-  width: 100%;
-  height: 30%;
-	
-  position: fixed;
-  top: 0;
-  left: 0;
-  opacity: 100%;*/
   
 }
 

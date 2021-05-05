@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from './Image';
-import axios from 'axios';
+
 class ImgContainer extends React.Component {
     constructor(props) {
         super(props);

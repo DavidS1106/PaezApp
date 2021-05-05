@@ -1,67 +1,48 @@
 import React from 'react';
 import LoginFacebook from './LoginFacebook';
-import IsConnectedContext from '../context/IsConnectedContext';
-//import {Redirect} from "react-router-dom";
+import axios from 'axios';
+//import IsConnectedContext from '../context/IsConnectedContext';
+//import { Button, Form,Table, ListGroup, Modal, Row, Col, Container } from 'react-bootstrap';
 
 class LoginContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-          isLoggedIn:false,
-          name:null,
-          token:null,
-          email:null,
-          id:null,
-          picture:null,
-          userId:null
+          isLoggedIn:this.props.isLoggedIn,
         };
         this.LogginHandler=this.LogginHandler.bind(this);
         this.LoggoutHandler=this.LoggoutHandler.bind(this);
       }
-      //Login
-      LogginHandler(data){
-        if(this.state.isLoggedIn===false){
-          this.setState({
-            isLoggedIn:true,
-            name:data.name,
-            token:data.accesToken,
-            email:data.email,
-            id:data.id,
-            picture:data.picture,
-            userId:data.userId
-          });
-          localStorage.setItem('token',data.accesToken);
-          let admins_list=JSON.parse(localStorage.getItem('admins'));
-          for(let i=0;i<admins_list.length;i++){
-            console.log("admin_id: "+admins_list[i].facebook_id);
-            if(admins_list[i].facebook_id===this.state.id){
-              localStorage.setItem('isAdmin','true');
-            }
-          }
-          this.props.logIn();          
-        }
+      componentDidMount() {
+
       }
+      LogginHandler(e){
+        e.preventDefault();
+        console.log("login");
+        axios.post('http://localhost:8080/users/authenticate', {userName:e.target.login.value, password:e.target.password.value})
+        .then(result =>{
+          sessionStorage.setItem('Token',result.data.Token)
+          this.props.setIsLoggedIn(true);       
+          this.setState({isLoggedIn:this.props.isLoggedIn});
+        })
+        .catch(error =>{
+            console.log("error: "+error);
+        });
+        
+      }
+      
       //Logout
       LoggoutHandler(){
-        console.log("deconnexion effectuee");
-        this.setState({
-          isLoggedIn:false,
-          name:null,
-          token:null,
-          email:null,
-          id:null,
-          picture:null,
-          userId:null
-        });
-        localStorage.setItem('token',null);
-        localStorage.setItem('isAdmin','false');
-        this.props.logOut();
+        console.log("log out");
+        sessionStorage.setItem('Token',undefined);
+        this.props.setIsLoggedIn(false);
+        this.setState({isLoggedIn:this.props.isLoggedIn});
       }
       
     render() {
       return (
         <div>
-          <LoginFacebook state={this.state} loggedOut={this.LoggoutHandler} loggedIn={this.LogginHandler}/>
+          <LoginFacebook key={this.props.isLoggedIn} isLoggedIn={this.props.isLoggedIn} loggedOut={this.LoggoutHandler} loggedIn={this.LogginHandler}/>
         </div>
       );
     }
