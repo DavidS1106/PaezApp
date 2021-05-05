@@ -7,7 +7,6 @@ import { Button} from 'react-bootstrap';
 import UpdateFormComponent from './UpdateFormComponent';
 import AddFormComponent from './AddFormComponent';
 import logo from '../../imgs/add_image.png';
-import Resizer from "react-image-file-resizer";
 import { Container,Row,Col } from 'react-bootstrap';
 
 class CategoriesFormContainer extends React.Component {
