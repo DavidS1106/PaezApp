@@ -7,7 +7,7 @@ const Name = ({name}) => {
       <td>
         <Col >
           <Link to={{ pathname:"/artists", state: { artist_name: name }}}>
-            <Button className="accueil_button" variant="outline-info" size="lg" >{name}</Button>
+            <Button  variant="outline-dark" size="lg" >{name}</Button>
           </Link>
         </Col>
       </td>

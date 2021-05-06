@@ -6,8 +6,8 @@ import ImgContainer from '../images/ImgContainer';
 import { Button} from 'react-bootstrap';
 import UpdateFormComponent from './UpdateFormComponent';
 import AddFormComponent from './AddFormComponent';
-import logo from '../../imgs/add_image.png';
-import { Container,Row,Col } from 'react-bootstrap';
+import logo from '../../imgs/add_image2.png';
+import {Container,Row,Col, Image } from 'react-bootstrap';
 
 class CategoriesFormContainer extends React.Component {
     constructor(props) {
@@ -28,6 +28,7 @@ class CategoriesFormContainer extends React.Component {
            annee_image_focused:null,
            cat_id_image_focused:null,
            support_id_image_focused:null,
+           id_artist:null,
         };
         
         this.images=[];
@@ -144,7 +145,7 @@ class CategoriesFormContainer extends React.Component {
         
       }
     componentDidMount() {
-        
+        this.setState({id_artist:localStorage.getItem('id_artist')});
         let items_cat=[];
         //categories
         axios.get('http://localhost:3000/categories' /*+ DEFAULT_QUERY*/)
@@ -184,7 +185,9 @@ class CategoriesFormContainer extends React.Component {
       this.images=[];
         for(let value of tab.entries()){
           if(value[1].bool===true){
-             await axios.get('http://localhost:3000/images/id/'+localStorage.getItem('id_artist')+'/'+value[1].object_id)
+            console.log("artiste");
+            console.log(localStorage.getItem('id_artist'));
+             await axios.get('http://localhost:3000/images/id/'+this.state.id_artist+'/'+value[1].object_id)
               .then(result =>{               
                 if(this.images.length!==0){
                   for(let i=0;i<result.data.length;i++){
@@ -219,29 +222,30 @@ class CategoriesFormContainer extends React.Component {
     }
     render() {
       return (
-        <div>
-          <Container>
-            <Row>
-            <Col>
+          <Container  fluid>
+            <Row >
+            <Col className="cats">
+              
               <CategoriesForm cats={this.state.categories} submit={this.handleCatsSubmit} />
             </Col>
             </Row>
-            <Row className="padding_bot">
+            <Row >
             <Col>
-            {
-              this.props.isLoggedIn ? <div><img onClick={this.handleShowAdd}className='logo_add_image' src={logo} alt="add"/> </div> : null
-            }
+                  {
+                  this.props.isLoggedIn ? <div> <Image fluid onClick={this.handleShowAdd}className='logo_add_image' src={logo} alt="add"/> </div> : null
+                  }
             </Col>
             </Row>
+           
             {
                              
                             this.state.rendered_images.map( (row,k) => (
-                              <Row className ="padding_top" key={k}>
+                              <Row className ="padding" key={k}>
                                 {
                                   row.map( (item,i) =>(
-                                    <Col md={{offset:i}} key={i}>
+                                    <Col  md={{offset:i}} key={i}>
                                       <div  className="tableaux" onClick={this.handleShow(item)} >
-                                        <ImgContainer  className="img_displayed"  img={item}/>
+                                        <ImgContainer  img={item}/>
                                       </div>
                                     </Col>
                                   ))
@@ -250,7 +254,7 @@ class CategoriesFormContainer extends React.Component {
                             ))
                             
             }
-          </Container>
+            
             <Modal size="lg" show={this.state.show} onHide={this.handleClose}>
                <Modal.Header closeButton>
                   <Modal.Title>{this.state.img_focused}</Modal.Title>
@@ -291,7 +295,7 @@ class CategoriesFormContainer extends React.Component {
             </Modal>
             <UpdateFormComponent submit={this.handleForm}  cats={this.state.categories} supports={this.state.supports} show={this.state.update_show} onHide={this.handleCloseUpdate}/>
             <AddFormComponent cat_id ={this.state.cat_id_image_focused} support_id={this.state.support_id_image_focused} year={this.state.annee_image_focused} price={this.state.price_image_focused} submit={this.handleFormAdd} cats={this.state.categories} supports={this.state.supports} show={this.state.add_show} onHide={this.handleCloseAdd}/>   
-        </div>
+          </Container>
       );
     }
   }

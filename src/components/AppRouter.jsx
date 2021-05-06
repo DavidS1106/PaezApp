@@ -15,21 +15,19 @@ function AppRouter(){
     const [isLoggedIn, setIsLoggedIn] = useState(isTokenDefined);
 
     return (
-        <div>
                 <Router>
                             <Switch>
                                 <Route path="/home">
-                                    <WelcomePage />
+                                    <WelcomePage className="page" setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
                                 </Route>
                                 <Route path="/artists">
-                                    <ArtistPage  setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
+                                    <ArtistPage className="page" setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
                                 </Route>
                                 <Route path="/">
                                     <Redirect to="/home" />
                                 </Route>
                             </Switch>
                 </Router>
-        </div>
     )
 }
 

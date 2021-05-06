@@ -9,12 +9,14 @@ class LoginContainer extends React.Component {
         super(props);
         this.state = { 
           isLoggedIn:this.props.isLoggedIn,
+          isAlertDisplayed: false,
         };
         this.LogginHandler=this.LogginHandler.bind(this);
         this.LoggoutHandler=this.LoggoutHandler.bind(this);
+        this.displayAlert=this.displayAlert.bind(this);
       }
       componentDidMount() {
-
+        
       }
       LogginHandler(e){
         e.preventDefault();
@@ -23,14 +25,17 @@ class LoginContainer extends React.Component {
         .then(result =>{
           sessionStorage.setItem('Token',result.data.Token)
           this.props.setIsLoggedIn(true);       
-          this.setState({isLoggedIn:this.props.isLoggedIn});
+          this.setState({isLoggedIn:this.props.isLoggedIn, isAlertDisplayed:false});
         })
         .catch(error =>{
             console.log("error: "+error);
+            this.setState({isAlertDisplayed:true});
         });
         
       }
-      
+      displayAlert(boolean){
+        this.setState({isAlertDisplayed:boolean});
+      }
       //Logout
       LoggoutHandler(){
         console.log("log out");
@@ -42,7 +47,7 @@ class LoginContainer extends React.Component {
     render() {
       return (
         <div>
-          <LoginFacebook key={this.props.isLoggedIn} isLoggedIn={this.props.isLoggedIn} loggedOut={this.LoggoutHandler} loggedIn={this.LogginHandler}/>
+          <LoginFacebook displayAlert={this.displayAlert} alert={this.state.isAlertDisplayed} key={this.props.isLoggedIn} isLoggedIn={this.props.isLoggedIn} loggedOut={this.LoggoutHandler} loggedIn={this.LogginHandler}/>
         </div>
       );
     }

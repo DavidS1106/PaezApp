@@ -1,37 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form,  Modal/*, Row, Col, Container*/ } from 'react-bootstrap';
+import { Button, Form, Alert,  Modal/*, Row, Col, Container*/ } from 'react-bootstrap';
 //import {Redirect} from "react-router-dom";
 
 const LoginFacebook = (props) => {
     
     const [isModalConnectionNeeded, setModalConnection] = useState(false);
-
+    const [isConnectionFailed, setConnectionFailed]=useState(props.alert);
     useEffect(() => {
-        //console.log(isModalConnectionNeeded);
+        setConnectionFailed(props.alert);
     });
 
+    function closeModal(){
+        console.log(isModalConnectionNeeded);
+        setConnectionFailed(false);
+        setModalConnection(false);
+        console.log(isModalConnectionNeeded);
+        props.displayAlert(false);
+    }
 
     if(props.isLoggedIn===false){
         return(
             <div>
-                <Button onClick={() => setModalConnection(true)} variant="primary">Se connecter</Button>
+                <Button onClick={() => setModalConnection(true)} variant="outline-dark">Se connecter</Button>
 
-                <Modal show={isModalConnectionNeeded}  onHide={() => setModalConnection(false)}>
+                <Modal show={isModalConnectionNeeded}  onHide={() => closeModal()}>
                     <Modal.Header closeButton>
                     </Modal.Header>
+                    <Form onSubmit={props.loggedIn}>
                     <Modal.Body>
-                        <Form onSubmit={props.loggedIn}>
-                            <Form.Group controlId="login">
-                                <Form.Control name="login" type="text" placeholder="Login" ></Form.Control>
+                            <Form.Group  controlId="login">
+                                <Form.Control  name="login" type="text" placeholder="Login" ></Form.Control>
                             </Form.Group>
                             <Form.Group controlId="password">
                                 <Form.Control name="password" type="password" placeholder="Password" ></Form.Control>
                             </Form.Group>
-                            <Button variant="primary" type="submit">
+                            {
+                                isConnectionFailed ?   
+                            <Alert  variant='danger'>
+                                Nom ou mot de passe invalide
+                            </Alert> : null
+                            }
+                            <Button  className="validateLogin-button" variant="dark" type="submit">
                                 Valider
                             </Button>
-                        </Form>  
                     </Modal.Body>
+                    </Form>  
                 </Modal>             
             </div>
         )
@@ -39,7 +52,7 @@ const LoginFacebook = (props) => {
     else{ 
         return(
             <div>
-                <Button onClick={props.loggedOut} variant="primary" >Se déconnecter</Button>               
+                <Button onClick={props.loggedOut} variant="outline-dark" >Se déconnecter</Button>               
             </div>
         )
     }

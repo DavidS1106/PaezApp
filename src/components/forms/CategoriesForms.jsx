@@ -1,25 +1,28 @@
 import React from 'react';
 import { Container,Row,Col } from 'react-bootstrap';
+import { Button,Form } from 'react-bootstrap';
 
 const CategoriesForm = ({cats,submit}) => {
     return (
-    <div>
-      <Container>
-        <Row>
-        <form onSubmit={submit}>
+    <div className="category">
+        <Form className="text-center">
+          <Form.Group controlId="formBasicCheckbox">
+          <Container>
+            <Row>
+            <h5>Catégories: </h5>
                 {
                             cats.map((item,i) => {
                                 return (
-                                  <Col key={i}>
-                                    <label key={i}>{item.nom}</label>
-                                    <input  onChange={submit} type="checkbox" id="{i}" name="name" value={item.id} checked={item.bool}></input>                                 
+                                  <Col  key={i}>          
+                                    <Form.Check  onChange={submit}type="checkbox" value={item.id} name="login" label={item.nom} checked={item.bool} id="{i}"/>                                
                                   </Col>
                                 );
                             })
-                }              
-          </form>
-          </Row>
-        </Container>
+                }
+              </Row>
+            </Container>
+            </Form.Group>             
+          </Form>
     </div>  
     )
   }

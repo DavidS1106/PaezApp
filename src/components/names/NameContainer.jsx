@@ -23,6 +23,7 @@ class NameContainer extends React.Component {
                 items.push(result.data[i].prenom);
                 objects_storage.push(result.data[i]);
             }
+            console.log(items);
             this.setState({ names: items });
             let json=JSON.stringify(objects_storage);
             localStorage.setItem('admins',json);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../App.css';
 import { useLocation } from "react-router";
 import NavBarContainer from '../navbar/NavBarContainer';
@@ -6,7 +6,8 @@ import CategoriesFormContainer from '../forms/CategoriesFormContainer';
 
 
 function ArtistPage(props) {
-    
+    const [idArtist, setidArtist] = useState(0);
+
     let location= useLocation();
     if(location.state!==undefined){
         localStorage.setItem('artist',  location.state.artist_name);
@@ -21,10 +22,11 @@ function ArtistPage(props) {
     }
 
     return (
-        <div>
-                <NavBarContainer setIsLoggedIn={props.setIsLoggedIn} isLoggedIn={props.isLoggedIn}/>
+        <React.Fragment>
+                <NavBarContainer  setIsLoggedIn={props.setIsLoggedIn} isLoggedIn={props.isLoggedIn}/>
                 <CategoriesFormContainer isLoggedIn={props.isLoggedIn} />
-        </div>
+        </React.Fragment>
+        
     );
 }
 
