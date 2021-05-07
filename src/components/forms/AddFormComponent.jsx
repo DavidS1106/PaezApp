@@ -24,25 +24,15 @@ const AddFormComponent = (props) => {
                             <Form.Group controlId="formBasicCheckbox">
                               <Form.Label>Catégorie</Form.Label>
                               <Form.Control name="categorie" as="select">
-                                {
-                                  props.cats.map((item,i)=>{
-                                    return(
-                                    <option value={item.object_id} key={i}>{item.nom}</option>
-                                    )
-                                  })
-                                }
+                                <option value="ACRYLIQUE">Acrylique</option>
+                                <option value="HUILE">Huile</option>
+                                <option value="AUTRE">Autre</option>                                   
                               </Form.Control>
                             </Form.Group>
                             <Form.Group controlId="formBasicCheckbox">
                             <Form.Label>Support</Form.Label>
                               <Form.Control  name="support" as="select">
-                                {
-                                  props.supports.map((item,i)=>{
-                                    return(
-                                    <option value={item._id} key={i}>{item.nom}</option>
-                                    )
-                                  })
-                                }
+                                <option value='Toile'>Toile</option>
                               </Form.Control>
                             </Form.Group>
                             <Form.Group >

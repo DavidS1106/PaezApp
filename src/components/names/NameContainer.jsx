@@ -38,20 +38,10 @@ class NameContainer extends React.Component {
           <div>
                <Container>
                <Row>
-              <table>
-                <tbody>
-                    <tr>
-                        {
-                            this.state.names.map((item,i) => {
-                                return (
-                                        <Name name={item} key={i} />
-                                );
-                            })
-                        }
-                    </tr>
-                </tbody>
-            </table>
-            </Row>
+                        
+                    <Name name="Pepita"  />
+                    <Name name="Carna" />
+                </Row>
             </Container>
           </div>
           

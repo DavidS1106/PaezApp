@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../App.css';
-import NameContainer from '../names/NameContainer';
+import {Link} from "react-router-dom";
 import accueil from '../../imgs/paezapp.png';
 import carna from '../../imgs/carna.png';
 import pepita from '../../imgs/pepita.png';
@@ -25,30 +25,19 @@ function WelcomePage(props) {
                 </Row>
                 <Row >
                     <Col className="parent-accueil">
+                        <Link to={{ pathname:"/artists", state: { artist_id: "4" }}}>
                         <Pic  className='accueil-button' src={pepita} alt="p" fluid roundedCircle />
-                        
+                        </Link>                        
                     </Col>
                     <Col  className="parent-accueil">
                         <Pic className='accueil_image' src={accueil} alt="Accueil" fluid roundedCircle />
                     </Col>
                     <Col className="parent-accueil">
+                        <Link to={{ pathname:"/artists", state: { artist_id: "5" }}}>
                         <Pic  className='accueil-button' src={carna} alt="p" fluid roundedCircle />
-                        
+                        </Link>    
                     </Col>
                 </Row>
-                {/* <Row>
-                    <Col>
-                        <Pic  className='accueil-button' src={pepita} alt="p" fluid roundedCircle />
-                        
-                    </Col>
-                    <Col>
-                        <Pic  className='accueil-button' src={carna} alt="p" fluid roundedCircle />
-                        
-                    </Col>
-                </Row> */}
-                {/* <Row>
-                    <NameContainer />
-                </Row> */}
             </Container>
         </div>
     );

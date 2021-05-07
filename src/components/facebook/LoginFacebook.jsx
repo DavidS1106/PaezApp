@@ -21,7 +21,7 @@ const LoginFacebook = (props) => {
     if(props.isLoggedIn===false){
         return(
             <div>
-                <Button onClick={() => setModalConnection(true)} variant="outline-dark">Se connecter</Button>
+                <Button onClick={() => setModalConnection(true)} variant="dark">Se connecter</Button>
 
                 <Modal show={isModalConnectionNeeded}  onHide={() => closeModal()}>
                     <Modal.Header closeButton>
@@ -52,7 +52,7 @@ const LoginFacebook = (props) => {
     else{ 
         return(
             <div>
-                <Button onClick={props.loggedOut} variant="outline-dark" >Se déconnecter</Button>               
+                <Button onClick={props.loggedOut} variant="dark" >Se déconnecter</Button>               
             </div>
         )
     }

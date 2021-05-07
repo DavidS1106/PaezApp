@@ -7,14 +7,14 @@ import { Button} from 'react-bootstrap';
 import UpdateFormComponent from './UpdateFormComponent';
 import AddFormComponent from './AddFormComponent';
 import logo from '../../imgs/add_image2.png';
-import {Container,Row,Col, Image } from 'react-bootstrap';
+import {Container,Row,Col, Image, Nav , Tabs, Tab} from 'react-bootstrap';
 
 class CategoriesFormContainer extends React.Component {
     constructor(props) {
         super(props);
         
         this.state = {
-           categories:[],
+           categories:[true,true,true],
            supports:[],
            rendered_images:[],
            show :false,
@@ -28,9 +28,12 @@ class CategoriesFormContainer extends React.Component {
            annee_image_focused:null,
            cat_id_image_focused:null,
            support_id_image_focused:null,
-           id_artist:null,
+           id_artist:localStorage.getItem('artist_id'),
+           catsDict:['ACRYLIQUE','HUILE','AUTRE']
         };
-        
+        this.headers= {
+          headers: { Authorization: `Bearer ${sessionStorage.getItem('Token')}` }
+        };
         this.images=[];
         this.should_be_updated=true;
         this.handleCatsSubmit = this.handleCatsSubmit.bind(this);
@@ -45,21 +48,58 @@ class CategoriesFormContainer extends React.Component {
         this.handleForm = this.handleForm.bind(this);
         this.handleFormAdd = this.handleFormAdd.bind(this);
         this.deleteImg = this.deleteImg.bind(this);
+        this.choseArtist = this.choseArtist.bind(this);
       }
-      arrayToMatrice(numberInArray){
-        const rows = this.images.reduce(function (rows, key, index) { 
-          return (index % numberInArray === 0 ? rows.push([key]) 
-            : rows[rows.length-1].push(key)) && rows;
-        }, []);
 
-        console.log("rows");
+      componentDidMount() {
+        this.fetchingImages();
         
-        this.setState({ rendered_images:rows});
-        console.log(this.state.rendered_images);
       }
-      deleteImg(){  
+    
+      fetchingImages= async()=>{
+        let tab=this.state.categories;
+        this.images=[];
+        // for(let i=0;i<tab.length;i++) {     
+        //   if(tab[i]===true){
+        //     let cat=this.state.catsDict[i];
+            
+            console.log("fetching...");
+            console.log(this.state.id_artist);
+              if(this.state.id_artist!==undefined){      
+                await axios.get('http://localhost:8080/tableaux/allById/'+this.state.id_artist)
+                  .then(result =>{
+                    this.images=result.data;
+                    this.arrayToMatrice(3);
+                  })
+                  .catch(error =>{
+                      console.log("error: "+error);
+                  });
+              }
+              else{
+                await axios.get('http://localhost:8080/tableaux/all/')
+                  .then(result =>{
+                    this.images=result.data;
+                    this.arrayToMatrice(3);
+                  })
+                  .catch(error =>{
+                      console.log("error: "+error);
+                  });
+              }
+        //   }
+        // }
+    }
+    arrayToMatrice(numberInArray){
+      const rows = this.images.reduce(function (rows, key, index) { 
+        return (index % numberInArray === 0 ? rows.push([key]) 
+          : rows[rows.length-1].push(key)) && rows;
+      }, []);
+
+      this.setState({ rendered_images:rows});
+    }
+
+    deleteImg(){  
         if(this.state.id_image_focused!==null){   
-          axios.delete('http://localhost:3000/images/delete/'+this.state.id_image_focused)
+          axios.delete('http://localhost:8080/tableaux/delete/'+this.state.id_image_focused,this.headers)
           .then(result =>{
             this.setState({delete_show:false});
             this.fetchingImages();
@@ -68,56 +108,49 @@ class CategoriesFormContainer extends React.Component {
           .catch(error =>{
               console.log("error: "+error);
           });
-          //this.handleCloseDelete();
           
         }
       }
       handleClose(){
         this.setState({show:false});
-      }
+    }
       handleShow= param=>e=>{
-        
-        this.setState({ support_id_image_focused:param.support,cat_id_image_focused:param.cat_id,annee_image_focused:param.annee,
-          price_image_focused:param.prix,id_image_focused:param._id,show:true,img_focused:param.name,img_focused_src:param.uri_img});
-          console.log(this.state.annee_image_focused);
 
-      }
-      handleCloseDelete(){
+        this.setState({ support_id_image_focused:param.support,cat_id_image_focused:param.cat,annee_image_focused:param.year,
+          price_image_focused:param.price,id_image_focused:param.id,show:true,img_focused:param.name,img_focused_src:param.imgUri});
+
+    }
+    handleCloseDelete(){
         this.setState({delete_show:false});
-      }
-      handleShowDelete(){
+    }
+    handleShowDelete(){
         this.setState({show:false,delete_show:true});
-      }
-      handleCloseUpdate(){
+    }
+    handleCloseUpdate(){
         this.setState({update_show:false});
-      }
-      handleShowUpdate(){
-        //fetch data
+    }
+    handleShowUpdate(){
         this.setState({show:false,update_show:true});
-      }
-      handleCloseAdd(){
+    }
+    handleCloseAdd(){
         this.setState({add_show:false});
-      }
-      handleShowAdd(){
-        //fetch data
+    }
+    handleShowAdd(){
         this.setState({add_show:true});
-      }
-      handleForm(e){
+    }
+    handleForm(e){
         let form=e.target
-        let tab_json={_id:this.state.id_image_focused,name:form.titre.value,cat_id:form.categorie.value,annee:form.annee.value,prix:form.prix.value,support_id:form.support.value};
-        console.log(form.categorie.value);
-        //e.preventDefault();
-        // update 
-        axios.post('http://localhost:3000/images/update/'+this.state.id_image_focused, {body:tab_json})
+
+        axios.put('http://localhost:8080/tableaux/update/', {id:this.state.id_image_focused,author:{id:this.state.id_artist},cat:form.categorie.value,support:form.support.value, imgUri:'',name:form.titre.value,year:form.annee.value,price:form.prix.value},this.headers)
         .then(result =>{
          this.fetchingImages();
         })
         .catch(error =>{
             console.log("error: "+error);
         });
-      }
+    }
       
-      async handleFormAdd(e){
+    async handleFormAdd(e){
         let form=e.target
         e.preventDefault();
         
@@ -129,103 +162,57 @@ class CategoriesFormContainer extends React.Component {
           reader.onload = () => resolve(reader.result);
           reader.onerror = error => reject(error);
         });
-        
+        console.log(e.target.img.files[0]);
         let base64=await toBase64(e.target.img.files[0]);
-        let tab_json={auteur:localStorage.getItem('id_artist'), img:base64,id:this.state.id_image_focused,name:form.titre.value,cat_id:form.categorie.value,annee:form.annee.value,prix:form.prix.value,support_id:form.support.value};
-       
-        
-        axios.post('http://localhost:3000/images/post/', {body:tab_json})
+        axios.post(
+        'http://localhost:8080/tableaux/create',{author:{id:this.state.id_artist},cat:form.categorie.value,support:form.support.value,imgUri:base64,name:form.titre.value,year:form.annee.value,price:0},this.headers)
         .then(result =>{
-          
+          console.log(result)
           this.fetchingImages();
         })
         .catch(error =>{
             console.log("error: "+error);
         });
         
-      }
-    componentDidMount() {
-        this.setState({id_artist:localStorage.getItem('id_artist')});
-        let items_cat=[];
-        //categories
-        axios.get('http://localhost:3000/categories' /*+ DEFAULT_QUERY*/)
-        .then(result =>{
-            
-            for(let i=0;i<result.data.length;i++){
-                //items.push(result.data[i].nom);
-                items_cat.push({object_id:result.data[i]._id,id: i,bool: true,nom :result.data[i].nom});
-            }
-           
-            this.setState({ categories: items_cat,});  
-            this.fetchingImages();
-        })
-        .catch(error =>{
-            console.log("error: "+error);
-        });
-        //supports
-        let items_sup=[];
-        axios.get('http://localhost:3000/categories/supports/' /*+ DEFAULT_QUERY*/)
-        .then(result =>{
-            
-            for(let i=0;i<result.data.length;i++){
-                //items.push(result.data[i].nom);
-                items_sup.push(result.data[i]);
-            }
-           
-            this.setState({ supports: items_sup,});  
-            
-        })
-        .catch(error =>{
-            console.log("error: "+error);
-        });
-        
     }
-    fetchingImages= async()=>{
-      let tab=this.state.categories;
-      this.images=[];
-        for(let value of tab.entries()){
-          if(value[1].bool===true){
-            console.log("artiste");
-            console.log(localStorage.getItem('id_artist'));
-             await axios.get('http://localhost:3000/images/id/'+this.state.id_artist+'/'+value[1].object_id)
-              .then(result =>{               
-                if(this.images.length!==0){
-                  for(let i=0;i<result.data.length;i++){
-                    this.images[ this.images.length+i]=result.data[i];
-                  }
-                  
-                }
-                else if(  this.images.length===0){
-                  this.images=result.data;
-                }
-              })
-              .catch(error =>{
-                  console.log("error: "+error);
-              });
-          }
-        }
-        this.arrayToMatrice(3);
-    }
-    
     handleCatsSubmit(event) {
         let target = event.target;
-        let value = target.value;
+        let value = target.id;
         let tab= this.state.categories;
 
-        if(tab[value].bool===true){
-          tab[value].bool=false;
+        if(tab[value]===true){
+          tab[value]=false;
         }
         else{
-          tab[value].bool=true;
+          tab[value]=true;
         } 
         this.fetchingImages();
     }
+    choseArtist(artistId){
+      this.setState({id_artist:artistId,rendered_images: []});
+      console.log("click");
+      this.setState({
+        id_artist:artistId
+      }, () => {
+          this.fetchingImages();
+      });
+    }
+
     render() {
       return (
           <Container  fluid>
-            <Row >
-            <Col className="cats">
-              
+            <Row className="overlay">
+            <Col>
+              <Tabs  onSelect={(k) => this.choseArtist(k)} activeKey={this.state.id_artist}>
+                <Tab  eventKey="5" title="Carna">
+                </Tab>
+                <Tab  eventKey="4" title="Pepita">
+                </Tab>
+              </Tabs>
+            </Col>
+            </Row>
+            <Row>
+            <Col className="cats">             
               <CategoriesForm cats={this.state.categories} submit={this.handleCatsSubmit} />
             </Col>
             </Row>
@@ -238,12 +225,11 @@ class CategoriesFormContainer extends React.Component {
             </Row>
            
             {
-                             
                             this.state.rendered_images.map( (row,k) => (
                               <Row className ="padding" key={k}>
                                 {
                                   row.map( (item,i) =>(
-                                    <Col  md={{offset:i}} key={i}>
+                                    <Col   key={i}>
                                       <div  className="tableaux" onClick={this.handleShow(item)} >
                                         <ImgContainer  img={item}/>
                                       </div>
@@ -252,7 +238,6 @@ class CategoriesFormContainer extends React.Component {
                                 }
                               </Row>
                             ))
-                            
             }
             
             <Modal size="lg" show={this.state.show} onHide={this.handleClose}>

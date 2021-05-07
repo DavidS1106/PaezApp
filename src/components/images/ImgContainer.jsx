@@ -13,7 +13,7 @@ class ImgContainer extends React.Component {
 
     componentDidMount() {
       if(this.props.img!==undefined){
-        this.setState({name:this.props.img.name,img:this.props.img.uri_img})
+        this.setState({name:this.props.img.name,img:this.props.img.imgUri})
       }
     }
     

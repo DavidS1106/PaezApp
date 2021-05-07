@@ -10,15 +10,17 @@ const CategoriesForm = ({cats,submit}) => {
           <Container>
             <Row>
             <h5>Catégories: </h5>
-                {
-                            cats.map((item,i) => {
-                                return (
-                                  <Col  key={i}>          
-                                    <Form.Check  onChange={submit}type="checkbox" value={item.id} name="login" label={item.nom} checked={item.bool} id="{i}"/>                                
-                                  </Col>
-                                );
-                            })
-                }
+                            
+                <Col>          
+                    <Form.Check className="cat" onChange={submit}type="checkbox" value={'ACRYLIQUE'} name="login" label={'ACRYLIQUE'} checked={cats[0]} id={0}/>
+                </Col>
+                <Col>
+                    <Form.Check className="cat" onChange={submit}type="checkbox" value={'HUILE'} name="login" label={'HUILE'} checked={cats[1]} id={1}/>
+                </Col>
+                <Col >
+                    <Form.Check className="cat" onChange={submit}type="checkbox" value={'AUTRE'} name="login" label={'AUTRE'} checked={cats[2]} id={2}/>                                
+               </Col>
+                                
               </Row>
             </Container>
             </Form.Group>             

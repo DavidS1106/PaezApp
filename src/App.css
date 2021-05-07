@@ -13,14 +13,14 @@ footer{
   transition: transform .3s; 
   
 }
-.img-size-parent{
-  width: 250px;
-  height: 250px;
-}
+
 .img-size{
-  display: block;
-  width: 100%;
-  height: auto;
+  width: 300px;
+  height: 300px;
+  object-fit:cover;
+
+  margin-left: 5%;
+  margin-right: 5%;
 
 }
 .tableaux:hover{
@@ -38,7 +38,7 @@ footer{
 }
 .navbar,
 .navbar-default,.navbar-dropdown {
-    background-image: linear-gradient(to bottom, #ccccb3 0, #ccccb3 100%) !important;
+    background-image: linear-gradient(to bottom, #000000 0, #000000 100%) !important;
     margin-bottom: 10%;
 }
 .logo_add_image:hover{
@@ -47,11 +47,16 @@ footer{
 }
 .padding{
   padding-top:1%;
-  padding-bottom:10%;
+  padding-bottom:5%;
   padding-right:10%;
   padding-left:10%;
 }
-
+.cat{
+  margin-top: 1.6%;
+}
+.overlay{
+  margin-top: 6%;
+}
 .form-control{
   transition: transform .3s;
 }
@@ -59,7 +64,7 @@ footer{
   width:100%;
 }
 .cats{
-  margin-top: 5%;
+  margin-top: 1%;
 }
 
 

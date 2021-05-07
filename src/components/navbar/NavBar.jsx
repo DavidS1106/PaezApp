@@ -12,16 +12,12 @@ const NavBar = (props) => {
     }
     return (
       <div>
-        <Navbar fixed="top" expand="lg">
+        <Navbar  bg="dark" variant="dark" fixed="top" expand="lg">
             <Navbar.Brand href="#home"></Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">        
                 <Nav.Link href="/">Home</Nav.Link>
-                <NavDropdown title="Artiste" id="basic-nav-dropdown">
-                  <NavDropdown.Item  as={Link}   to="/artists" onClick={() =>setartistPath("5eda8006d566faf6b952afd3")} >Carna</NavDropdown.Item>
-                  <NavDropdown.Item as={Link}   to="/artists"onClick={() =>setartistPath("5eda7fa9d566faf6b952afd2")} >Pepita</NavDropdown.Item>
-                </NavDropdown>
                 </Nav>
                 <LoginContainer setIsLoggedIn={props.setIsLoggedIn} isLoggedIn={props.isLoggedIn}  />
             </Navbar.Collapse>
