@@ -10,12 +10,8 @@ import NavBarContainer from '../navbar/NavBarContainer';
 import { Container,Row,Col } from 'react-bootstrap';
 function WelcomePage(props) {
    
-
-    if(localStorage.getItem('isAdmin')===undefined){
-        localStorage.setItem('isAdmin',"false");
-    }   
     return (
-        <div className="welcome-page">
+        <div id="welcome-page">
             <NavBarContainer  setIsLoggedIn={props.setIsLoggedIn} isLoggedIn={props.isLoggedIn}/>
             <Container fluid>
                 <Row >

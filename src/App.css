@@ -1,13 +1,13 @@
-html, body { height: 100% }
+html, body { height: 100% ;}
 footer{
   position:absolute;
   left:0;
   bottom:0;
   right:0;
 }
-.page{
+/* #root{
   height: 100% 
-}
+} */
 .tableaux{
 
   transition: transform .3s; 
@@ -72,6 +72,8 @@ footer{
   object-fit: cover;
   width: 100%;
   height: 100%;
+  max-width: 770px;
+  max-height: 770px;
 }
 .parent-title{
   width: 200px;

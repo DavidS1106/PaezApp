@@ -7,7 +7,7 @@ import { Button} from 'react-bootstrap';
 import UpdateFormComponent from './UpdateFormComponent';
 import AddFormComponent from './AddFormComponent';
 import logo from '../../imgs/add_image2.png';
-import {Container,Row,Col, Image, Nav , Tabs, Tab} from 'react-bootstrap';
+import {Container,Row,Col, Image , Tabs, Tab} from 'react-bootstrap';
 
 class CategoriesFormContainer extends React.Component {
     constructor(props) {
@@ -63,8 +63,6 @@ class CategoriesFormContainer extends React.Component {
         //   if(tab[i]===true){
         //     let cat=this.state.catsDict[i];
             
-            console.log("fetching...");
-            console.log(this.state.id_artist);
               if(this.state.id_artist!==undefined){      
                 await axios.get('http://localhost:8080/tableaux/allById/'+this.state.id_artist)
                   .then(result =>{
@@ -152,7 +150,6 @@ class CategoriesFormContainer extends React.Component {
       
     async handleFormAdd(e){
         let form=e.target
-        e.preventDefault();
         
         //transform to base64
         const toBase64 = file => new Promise((resolve, reject) => {
@@ -162,7 +159,6 @@ class CategoriesFormContainer extends React.Component {
           reader.onload = () => resolve(reader.result);
           reader.onerror = error => reject(error);
         });
-        console.log(e.target.img.files[0]);
         let base64=await toBase64(e.target.img.files[0]);
         axios.post(
         'http://localhost:8080/tableaux/create',{author:{id:this.state.id_artist},cat:form.categorie.value,support:form.support.value,imgUri:base64,name:form.titre.value,year:form.annee.value,price:0},this.headers)
@@ -189,10 +185,8 @@ class CategoriesFormContainer extends React.Component {
         this.fetchingImages();
     }
     choseArtist(artistId){
-      this.setState({id_artist:artistId,rendered_images: []});
-      console.log("click");
       this.setState({
-        id_artist:artistId
+        id_artist:artistId,rendered_images: []
       }, () => {
           this.fetchingImages();
       });
@@ -241,10 +235,7 @@ class CategoriesFormContainer extends React.Component {
             }
             
             <Modal size="lg" show={this.state.show} onHide={this.handleClose}>
-               <Modal.Header closeButton>
-                  <Modal.Title>{this.state.img_focused}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body><img className="focus" src ={this.state.img_focused_src} alt={this.state.img_focused}/>
+                <Modal.Body ><img className="focus" src ={this.state.img_focused_src} alt={this.state.img_focused}/>
                 </Modal.Body>
                 <Modal.Footer>
                           {
