@@ -35,10 +35,6 @@ const AddFormComponent = (props) => {
                                 <option value='Toile'>Toile</option>
                               </Form.Control>
                             </Form.Group>
-                            <Form.Group >
-                              <Form.Label>Prix</Form.Label>
-                              <Form.Control name="prix" type="text" placeholder="Nouveau prix" />
-                            </Form.Group>
                             <Button variant="primary" type="submit">
                               Valider
                             </Button>

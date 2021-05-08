@@ -32,10 +32,6 @@ const UpdateFormComponent = (props) => {
                                 <option value='Toile'>Toile</option>
                               </Form.Control>
                             </Form.Group>
-                            <Form.Group >
-                              <Form.Label>Prix</Form.Label>
-                              <Form.Control name="prix" type="text" placeholder="Nouveau prix">{props.price}</Form.Control>
-                            </Form.Group>
                             <Button variant="primary" type="submit">
                               Valider
                             </Button>

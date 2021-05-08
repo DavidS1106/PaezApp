@@ -4,23 +4,12 @@ import Image from './Image';
 class ImgContainer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-          img:'' ,
-          name:"",
-        };
+        this.state = {};
       }
-
-
-    componentDidMount() {
-      if(this.props.img!==undefined){
-        this.setState({name:this.props.img.name,img:this.props.img.imgUri})
-      }
-    }
-    
 
     render() {
       return (
-          <Image name={this.state.name} img={this.state.img} />
+          <Image name={this.props.img.name} img={this.props.img.imgUri} />
       );
     }
   }

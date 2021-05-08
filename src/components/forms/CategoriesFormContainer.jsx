@@ -71,11 +71,13 @@ class CategoriesFormContainer extends React.Component {
       fetchingImages= async()=>{
         console.log(this.headers);
         this.images=[];
-        let categories=this.checkCategoriesToGet(); 
+        let categories=this.checkCategoriesToGet();
+        console.log(categories);
         if(this.state.id_artist!==undefined){      
             await axios.post('http://localhost:8080/tableaux/allById/'+this.state.id_artist,categories)
             .then(result =>{
                   this.images=result.data;
+                  
                   this.arrayToMatrice(3);
             })
             .catch(error =>{
@@ -98,8 +100,8 @@ class CategoriesFormContainer extends React.Component {
         return (index % numberInArray === 0 ? rows.push([key]) 
           : rows[rows.length-1].push(key)) && rows;
       }, []);
-
       this.setState({ rendered_images:rows});
+
     }
 
     deleteImg(){  
@@ -146,7 +148,7 @@ class CategoriesFormContainer extends React.Component {
     handleForm(e){
         let form=e.target
 
-        axios.put('http://localhost:8080/tableaux/update/', {id:this.state.id_image_focused,author:{id:this.state.id_artist},cat:form.categorie.value,support:form.support.value, imgUri:'',name:form.titre.value,year:form.annee.value,price:form.prix.value},this.headers)
+        axios.put('http://localhost:8080/tableaux/update/', {id:this.state.id_image_focused,author:{id:this.state.id_artist},cat:form.categorie.value,support:form.support.value, imgUri:'',name:form.titre.value,year:form.annee.value,price:0},this.headers)
         .then(result =>{
          this.fetchingImages();
         })
@@ -189,8 +191,11 @@ class CategoriesFormContainer extends React.Component {
         else{
           tab[value]=true;
         }
-        this.setState({categories:tab});
-        this.fetchingImages();
+        this.setState({
+          categories:tab
+        }, () => {
+            this.fetchingImages();
+        });
     }
     choseArtist(artistId){
       this.setState({
