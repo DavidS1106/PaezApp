@@ -55,36 +55,43 @@ class CategoriesFormContainer extends React.Component {
         this.fetchingImages();
         
       }
-    
+      checkCategoriesToGet(){
+        let tab=["","",""];
+        if(this.state.categories[0]===true){
+          tab[0]="ACRYLIQUE";
+        }
+        if(this.state.categories[1]===true){
+          tab[1]="HUILE";
+        }
+        if(this.state.categories[2]===true){
+          tab[2]="AUTRE";
+        }
+        return tab;
+      }
       fetchingImages= async()=>{
-        let tab=this.state.categories;
+        console.log(this.headers);
         this.images=[];
-        // for(let i=0;i<tab.length;i++) {     
-        //   if(tab[i]===true){
-        //     let cat=this.state.catsDict[i];
-            
-              if(this.state.id_artist!==undefined){      
-                await axios.get('http://localhost:8080/tableaux/allById/'+this.state.id_artist)
-                  .then(result =>{
-                    this.images=result.data;
-                    this.arrayToMatrice(3);
-                  })
-                  .catch(error =>{
-                      console.log("error: "+error);
-                  });
-              }
-              else{
-                await axios.get('http://localhost:8080/tableaux/all/')
-                  .then(result =>{
-                    this.images=result.data;
-                    this.arrayToMatrice(3);
-                  })
-                  .catch(error =>{
-                      console.log("error: "+error);
-                  });
-              }
-        //   }
-        // }
+        let categories=this.checkCategoriesToGet(); 
+        if(this.state.id_artist!==undefined){      
+            await axios.post('http://localhost:8080/tableaux/allById/'+this.state.id_artist,categories)
+            .then(result =>{
+                  this.images=result.data;
+                  this.arrayToMatrice(3);
+            })
+            .catch(error =>{
+                  console.log("error: "+error);
+            });
+          }
+          else{
+            await axios.get('http://localhost:8080/tableaux/all/')
+            .then(result =>{
+                  this.images=result.data;
+                  this.arrayToMatrice(3);
+            })
+            .catch(error =>{
+                  console.log("error: "+error);
+            });
+          }
     }
     arrayToMatrice(numberInArray){
       const rows = this.images.reduce(function (rows, key, index) { 
@@ -173,7 +180,7 @@ class CategoriesFormContainer extends React.Component {
     }
     handleCatsSubmit(event) {
         let target = event.target;
-        let value = target.id;
+        let value = (target.id)-1;
         let tab= this.state.categories;
 
         if(tab[value]===true){
@@ -181,7 +188,8 @@ class CategoriesFormContainer extends React.Component {
         }
         else{
           tab[value]=true;
-        } 
+        }
+        this.setState({categories:tab});
         this.fetchingImages();
     }
     choseArtist(artistId){

@@ -12,13 +12,13 @@ const CategoriesForm = ({cats,submit}) => {
             <h5>Catégories: </h5>
                             
                 <Col>          
-                    <Form.Check className="cat" onChange={submit}type="checkbox" value={'ACRYLIQUE'} name="login" label={'ACRYLIQUE'} checked={cats[0]} id={0}/>
+                    <Form.Check className="cat" onChange={submit}type="checkbox" value={'ACRYLIQUE'} name="ACRYLIQUE" label={'ACRYLIQUE'} checked={cats[0]} id={1}/>
                 </Col>
                 <Col>
-                    <Form.Check className="cat" onChange={submit}type="checkbox" value={'HUILE'} name="login" label={'HUILE'} checked={cats[1]} id={1}/>
+                    <Form.Check className="cat" onChange={submit}type="checkbox" value={'HUILE'} name="HUILE" label={'HUILE'} checked={cats[1]} id={2}/>
                 </Col>
                 <Col >
-                    <Form.Check className="cat" onChange={submit}type="checkbox" value={'AUTRE'} name="login" label={'AUTRE'} checked={cats[2]} id={2}/>                                
+                    <Form.Check className="cat" onChange={submit}type="checkbox" value={'AUTRE'} name="AUTRE" label={'AUTRE'} checked={cats[2]} id={3}/>                                
                </Col>
                                 
               </Row>
