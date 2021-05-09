@@ -1,10 +1,11 @@
 class AuthService {
     IsLoggedIn() {
-
-        if(sessionStorage.getItem('Token')==="null"){
+        
+        const token=sessionStorage.getItem('Token');
+        if(token==="null" || token===null){
             return false;
         }
-        else{
+        else{            
             return true;
         }
     }
