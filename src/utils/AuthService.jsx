@@ -1,7 +1,12 @@
 class AuthService {
 
     getHeader(){
-        return {headers: { Authorization: `Bearer ${sessionStorage.getItem('Token')}` }};
+        return {headers: { 
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+            'Content-type':'application/x-www-form-urlencoded', 
+            Authorization: `Bearer ${sessionStorage.getItem('Token')}`
+         }};
     }
 
     IsLoggedIn() {
