@@ -17,10 +17,10 @@ function AppRouter(){
     return (
                 <Router>
                             <Switch>
-                                <Route path="/home">
+                                {/* <Route path="/home">
                                     <WelcomePage className="page" setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
-                                </Route>
-                                <Route path="/artists">
+                                </Route> */}
+                                <Route path="/home">
                                     <ArtistPage className="page" setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
                                 </Route>
                                 <Route path="/">
