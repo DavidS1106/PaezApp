@@ -74,7 +74,7 @@ class CategoriesFormContainer extends React.Component {
         let categories=this.checkCategoriesToGet();
         console.log(categories);
         if(this.state.id_artist!==undefined){      
-            await axios.post('http://localhost:8080/tableaux/allById/'+this.state.id_artist,categories)
+            await axios.post('https://paezappsabo.herokuapp.com/tableaux/allById/'+this.state.id_artist,categories)
             .then(result =>{
                   this.images=result.data;
                   
@@ -85,7 +85,7 @@ class CategoriesFormContainer extends React.Component {
             });
           }
           else{
-            await axios.get('http://localhost:8080/tableaux/all/')
+            await axios.get('https://paezappsabo.herokuapp.com/tableaux/all/')
             .then(result =>{
                   this.images=result.data;
                   this.arrayToMatrice(3);
@@ -106,7 +106,7 @@ class CategoriesFormContainer extends React.Component {
 
     deleteImg(){  
         if(this.state.id_image_focused!==null){   
-          axios.delete('http://localhost:8080/tableaux/delete/'+this.state.id_image_focused,this.headers)
+          axios.delete('https://paezappsabo.herokuapp.com/tableaux/delete/'+this.state.id_image_focused,this.headers)
           .then(result =>{
             this.setState({delete_show:false});
             this.fetchingImages();
@@ -170,7 +170,7 @@ class CategoriesFormContainer extends React.Component {
         });
         let base64=await toBase64(e.target.img.files[0]);
         axios.post(
-        'http://localhost:8080/tableaux/create',{author:{id:this.state.id_artist},cat:form.categorie.value,support:form.support.value,imgUri:base64,name:form.titre.value,year:form.annee.value,price:0},this.headers)
+        'https://paezappsabo.herokuapp.com/tableaux/create',{author:{id:this.state.id_artist},cat:form.categorie.value,support:form.support.value,imgUri:base64,name:form.titre.value,year:form.annee.value,price:0},this.headers)
         .then(result =>{
           console.log(result)
           this.fetchingImages();

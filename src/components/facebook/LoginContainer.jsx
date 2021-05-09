@@ -21,7 +21,7 @@ class LoginContainer extends React.Component {
       LogginHandler(e){
         e.preventDefault();
         console.log("login");
-        axios.post('http://localhost:8080/users/authenticate', {userName:e.target.login.value, password:e.target.password.value})
+        axios.post('https://paezappsabo.herokuapp.com/users/authenticate', {userName:e.target.login.value, password:e.target.password.value})
         .then(result =>{
           sessionStorage.setItem('Token',result.data.Token)
           this.props.setIsLoggedIn(true);       
