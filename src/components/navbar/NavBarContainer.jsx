@@ -15,7 +15,7 @@ class NavBarContainer extends React.Component {
       
     render() {
       return (
-          <NavBar  setIsLoggedIn={this.props.setIsLoggedIn} isLoggedIn={this.props.isLoggedIn} />
+          <NavBar setIsLoggedIn={this.props.setIsLoggedIn} />
       );
     }
   }

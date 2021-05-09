@@ -1,14 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import LoginFacebook from './LoginFacebook';
+import AuthService from "../../utils/AuthService";
 import axios from 'axios';
-//import IsConnectedContext from '../context/IsConnectedContext';
-//import { Button, Form,Table, ListGroup, Modal, Row, Col, Container } from 'react-bootstrap';
+
 
 class LoginContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-          isLoggedIn:this.props.isLoggedIn,
+          isLoggedIn:AuthService.IsLoggedIn(),
           isAlertDisplayed: false,
         };
         this.LogginHandler=this.LogginHandler.bind(this);
@@ -16,16 +16,16 @@ class LoginContainer extends React.Component {
         this.displayAlert=this.displayAlert.bind(this);
       }
       componentDidMount() {
-        
       }
+
       LogginHandler(e){
         e.preventDefault();
         console.log("login");
         axios.post('https://paezappsabo.herokuapp.com/users/authenticate', {userName:e.target.login.value, password:e.target.password.value})
         .then(result =>{
-          sessionStorage.setItem('Token',result.data.Token)
-          this.props.setIsLoggedIn(true);       
-          this.setState({isLoggedIn:this.props.isLoggedIn, isAlertDisplayed:false});
+          sessionStorage.setItem('Token',result.data.Token);   
+          this.setState({isLoggedIn:AuthService.IsLoggedIn(), isAlertDisplayed:false});
+          this.props.setIsLoggedIn(AuthService.IsLoggedIn());
         })
         .catch(error =>{
             console.log("error: "+error);
@@ -39,15 +39,16 @@ class LoginContainer extends React.Component {
       //Logout
       LoggoutHandler(){
         console.log("log out");
-        sessionStorage.setItem('Token',undefined);
-        this.props.setIsLoggedIn(false);
-        this.setState({isLoggedIn:this.props.isLoggedIn});
+        sessionStorage.setItem('Token',null);
+        
+        this.setState({isLoggedIn:AuthService.IsLoggedIn()});
+        this.props.setIsLoggedIn(AuthService.IsLoggedIn());
       }
       
     render() {
       return (
         <div>
-          <LoginFacebook displayAlert={this.displayAlert} alert={this.state.isAlertDisplayed} key={this.props.isLoggedIn} isLoggedIn={this.props.isLoggedIn} loggedOut={this.LoggoutHandler} loggedIn={this.LogginHandler}/>
+          <LoginFacebook displayAlert={this.displayAlert} alert={this.state.isAlertDisplayed} key={this.state.isLoggedIn} isLoggedIn={this.state.isLoggedIn} loggedOut={this.LoggoutHandler} loggedIn={this.LogginHandler}/>
         </div>
       );
     }

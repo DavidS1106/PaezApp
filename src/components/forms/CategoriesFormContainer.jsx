@@ -8,6 +8,7 @@ import UpdateFormComponent from './UpdateFormComponent';
 import AddFormComponent from './AddFormComponent';
 import logo from '../../imgs/add_image2.png';
 import {Container,Row,Col, Image , Tabs, Tab} from 'react-bootstrap';
+import AuthService from "../../utils/AuthService";
 
 class CategoriesFormContainer extends React.Component {
     constructor(props) {
@@ -28,7 +29,7 @@ class CategoriesFormContainer extends React.Component {
            annee_image_focused:null,
            cat_id_image_focused:null,
            support_id_image_focused:null,
-           id_artist:localStorage.getItem('artist_id'),
+           id_artist:0/*localStorage.getItem('artist_id')*/,
            catsDict:['ACRYLIQUE','HUILE','AUTRE']
         };
         this.headers= {
@@ -69,11 +70,11 @@ class CategoriesFormContainer extends React.Component {
         return tab;
       }
       fetchingImages= async()=>{
-        console.log(this.headers);
+
         this.images=[];
         let categories=this.checkCategoriesToGet();
-        console.log(categories);
-        if(this.state.id_artist!==undefined){      
+
+        if(this.state.id_artist>0){      
             await axios.post('https://paezappsabo.herokuapp.com/tableaux/allById/'+this.state.id_artist,categories)
             .then(result =>{
                   this.images=result.data;
@@ -84,7 +85,7 @@ class CategoriesFormContainer extends React.Component {
                   console.log("error: "+error);
             });
           }
-          else{
+          else if (this.state.id_artist===0 ){
             await axios.get('https://paezappsabo.herokuapp.com/tableaux/all/')
             .then(result =>{
                   this.images=result.data;
@@ -226,7 +227,7 @@ class CategoriesFormContainer extends React.Component {
             <Row >
             <Col>
                   {
-                  this.props.isLoggedIn ? <div> <Image fluid onClick={this.handleShowAdd}className='logo_add_image' src={logo} alt="add"/> </div> : null
+                  AuthService.IsLoggedIn() ? <div> <Image fluid onClick={this.handleShowAdd}className='logo_add_image' src={logo} alt="add"/> </div> : null
                   }
             </Col>
             </Row>
@@ -252,13 +253,13 @@ class CategoriesFormContainer extends React.Component {
                 </Modal.Body>
                 <Modal.Footer>
                           {
-                            this.props.isLoggedIn ?
+                            AuthService.IsLoggedIn() ?
                             <Button variant="primary" onClick={this.handleShowUpdate}>
                               Modifier
                             </Button> : null
                           }
                           {
-                            this.props.isLoggedIn ?
+                            AuthService.IsLoggedIn() ?
                             <Button variant="danger" onClick={this.handleShowDelete}>
                                 Supprimer
                             </Button> :null

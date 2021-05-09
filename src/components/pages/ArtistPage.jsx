@@ -6,7 +6,9 @@ import CategoriesFormContainer from '../forms/CategoriesFormContainer';
 
 
 function ArtistPage(props) {
-    const [idArtist, setidArtist] = useState(0);
+    
+
+    // const [idArtist, setidArtist] = useState(0);
 
     let location= useLocation();
     if(location.state!==undefined){
@@ -16,8 +18,8 @@ function ArtistPage(props) {
 
     return (
         <React.Fragment>
-                <NavBarContainer  setIsLoggedIn={props.setIsLoggedIn} isLoggedIn={props.isLoggedIn}/>
-                <CategoriesFormContainer isLoggedIn={props.isLoggedIn} />
+                <NavBarContainer setIsLoggedIn={props.setIsLoggedIn} />
+                <CategoriesFormContainer  />
         </React.Fragment>
         
     );

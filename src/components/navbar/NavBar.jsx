@@ -5,11 +5,7 @@ import LoginContainer from '../facebook/LoginContainer';
 import {Link} from "react-router-dom";
 const NavBar = (props) => {
     
-    function setartistPath(artist){
-      localStorage.setItem('id_artist',artist);
-      console.log("changed artist");
-      console.log(localStorage.getItem('id_artist'));
-    }
+
     return (
       <div>
         <Navbar  bg="dark" variant="dark" fixed="top" expand="lg">
@@ -19,7 +15,7 @@ const NavBar = (props) => {
                 <Nav className="mr-auto">        
                 <Nav.Link href="/">Home</Nav.Link>
                 </Nav>
-                <LoginContainer setIsLoggedIn={props.setIsLoggedIn} isLoggedIn={props.isLoggedIn}  />
+                <LoginContainer setIsLoggedIn={props.setIsLoggedIn} />
             </Navbar.Collapse>
         </Navbar>
       </div>
