@@ -72,7 +72,7 @@ class CategoriesFormContainer extends React.Component {
         let categories=this.checkCategoriesToGet();
 
         if(this.state.id_artist>0){     
-          //'http://localhost:8080/
+          //'https://paezappsabo.herokuapp.com/ 
             await axios.post('https://paezappsabo.herokuapp.com/tableaux/allById/'+this.state.id_artist,categories)
             .then(result =>{
                   this.images=result.data;
@@ -83,7 +83,7 @@ class CategoriesFormContainer extends React.Component {
             });
           }
           else if (this.state.id_artist===0 ){
-            await axios.get('https://paezappsabo.herokuapp.com/tableaux/all/')
+            await axios.get('https://paezappsabo.herokuapp.com/tableaux/all')
             .then(result =>{
                   this.images=result.data;
                   this.arrayToMatrice(3);
@@ -157,7 +157,7 @@ class CategoriesFormContainer extends React.Component {
       
     async handleFormAdd(e){
         let form=e.target
-        
+        e.preventDefault();
         //transform to base64
         const toBase64 = file => new Promise((resolve, reject) => {
           const reader = new FileReader();
@@ -168,9 +168,9 @@ class CategoriesFormContainer extends React.Component {
         });
         let base64=await toBase64(e.target.img.files[0]);
         axios.post(
-        'https://paezappsabo.herokuapp.com/tableaux/create',{author:{id:this.state.id_artist},cat:form.categorie.value,support:form.support.value,imgUri:base64,name:form.titre.value,year:form.annee.value,price:0},AuthService.getHeader())
+        'https://paezappsabo.herokuapp.com/tableaux/create/',{author:{id:this.state.id_artist},cat:form.categorie.value,support:form.support.value,imgUri:base64,name:form.titre.value,year:form.annee.value,price:0},AuthService.getHeader())
         .then(result =>{
-          console.log(result)
+          console.log(result);
           this.fetchingImages();
         })
         .catch(error =>{
