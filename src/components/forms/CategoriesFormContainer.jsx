@@ -145,8 +145,8 @@ class CategoriesFormContainer extends React.Component {
     }
     handleForm(e){
         let form=e.target
-
-        axios.put('https://paezappsabo.herokuapp.com/tableaux/update/', {id:this.state.id_image_focused,author:{id:this.state.id_artist},cat:form.categorie.value,support:form.support.value, imgUri:'',name:form.titre.value,year:form.annee.value,price:0},AuthService.getHeader())
+        //e.preventDefault();
+        axios.put('https://paezappsabo.herokuapp.com/tableaux/update', {id:this.state.id_image_focused,author:{id:this.state.id_artist},cat:form.categorie.value,support:form.support.value, imgUri:'',name:form.titre.value,year:form.annee.value,price:0},AuthService.getHeader())
         .then(result =>{
          this.fetchingImages();
         })
@@ -167,7 +167,7 @@ class CategoriesFormContainer extends React.Component {
         });
         let base64=await toBase64(e.target.img.files[0]);
         axios.post(
-        'https://paezappsabo.herokuapp.com/tableaux/create',{author:{id:this.state.id_artist},cat:form.categorie.value,support:form.support.value,imgUri:base64,name:form.titre.value,year:form.annee.value,price:0},AuthService.getHeader())
+        'https://paezappsabo.herokuapp.com/tableaux/create/',{author:{id:this.state.id_artist},cat:form.categorie.value,support:form.support.value,imgUri:base64,name:form.titre.value,year:form.annee.value,price:0},AuthService.getHeader())
         .then(result =>{
           console.log(result);
           this.fetchingImages();
