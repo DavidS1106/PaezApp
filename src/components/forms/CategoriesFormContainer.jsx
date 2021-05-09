@@ -167,7 +167,7 @@ class CategoriesFormContainer extends React.Component {
         });
         let base64=await toBase64(e.target.img.files[0]);
         axios.post(
-        'https://paezappsabo.herokuapp.com/tableaux/create',{author:{id:this.state.id_artist},cat:form.categorie.value,support:form.support.value,imgUri:base64,name:form.titre.value,year:form.annee.value,price:0},AuthService.getHeader())
+        'https://paezappsabo.herokuapp.com/tableaux/insert',{author:{id:this.state.id_artist},cat:form.categorie.value,support:form.support.value,imgUri:base64,name:form.titre.value,year:form.annee.value,price:0},AuthService.getHeader())
         .then(result =>{
           console.log(result);
           this.fetchingImages();
