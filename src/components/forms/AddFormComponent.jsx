@@ -5,8 +5,7 @@ const AddFormComponent = (props) => {
     return (
     <div>
       <Modal show={props.show} onHide={props.onHide}>
-                <Modal.Header closeButton> 
-                   
+                <Modal.Header closeButton>                    
                 </Modal.Header>
                 <Modal.Body>
                           <Form onSubmit={props.submit}>
@@ -14,15 +13,15 @@ const AddFormComponent = (props) => {
                               <Form.Control name="img" type="file" accept="image/png, image/jpeg" />
                             </Form.Group>
                             <Form.Group >
-                              <Form.Label >Titre</Form.Label>
+                              <Form.Label className="label">Titre</Form.Label>
                               <Form.Control name="titre"  type="text" placeholder="Nouveau titre" />
                             </Form.Group>
                             <Form.Group>
-                              <Form.Label>Annee</Form.Label>
+                              <Form.Label className="label">Annee</Form.Label>
                               <Form.Control name="annee" type="text" placeholder="Annee" />
                             </Form.Group>
                             <Form.Group controlId="formBasicCheckbox">
-                              <Form.Label>Catégorie</Form.Label>
+                              <Form.Label className="label">Catégorie</Form.Label>
                               <Form.Control name="categorie" as="select">
                                 <option value="ACRYLIQUE">Acrylique</option>
                                 <option value="HUILE">Huile</option>
@@ -30,7 +29,7 @@ const AddFormComponent = (props) => {
                               </Form.Control>
                             </Form.Group>
                             <Form.Group controlId="formBasicCheckbox">
-                            <Form.Label>Support</Form.Label>
+                            <Form.Label className="label">Support</Form.Label>
                               <Form.Control  name="support" as="select">
                                 <option value='Toile'>Toile</option>
                               </Form.Control>

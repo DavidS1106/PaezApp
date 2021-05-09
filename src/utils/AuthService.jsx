@@ -1,4 +1,8 @@
 class AuthService {
+
+    getHeader(){
+        return {headers: { Authorization: `Bearer ${sessionStorage.getItem('Token')}` }};
+    }
     IsLoggedIn() {
         
         const token=sessionStorage.getItem('Token');
