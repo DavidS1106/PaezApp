@@ -157,7 +157,7 @@ class CategoriesFormContainer extends React.Component {
       
     async handleFormAdd(e){
         let form=e.target
-        //e.preventDefault();
+        e.preventDefault();
         //e.stopPropagation();
         //transform to base64
         const toBase64 = file => new Promise((resolve, reject) => {
@@ -186,7 +186,7 @@ class CategoriesFormContainer extends React.Component {
         .catch(error =>{
             console.log("error: "+error);
         });
-        
+        this.handleCloseAdd();
     }
     handleCatsSubmit(event) {
         let target = event.target;
