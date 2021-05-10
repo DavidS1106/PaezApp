@@ -157,7 +157,8 @@ class CategoriesFormContainer extends React.Component {
       
     async handleFormAdd(e){
         let form=e.target
-        e.preventDefault();
+        //e.preventDefault();
+        
         //transform to base64
         const toBase64 = file => new Promise((resolve, reject) => {
           const reader = new FileReader();
