@@ -158,7 +158,7 @@ class CategoriesFormContainer extends React.Component {
     async handleFormAdd(e){
         let form=e.target
         //e.preventDefault();
-        e.stopPropagation();
+        //e.stopPropagation();
         //transform to base64
         const toBase64 = file => new Promise((resolve, reject) => {
           const reader = new FileReader();
@@ -169,11 +169,18 @@ class CategoriesFormContainer extends React.Component {
         });
         let base64=await toBase64(e.target.img.files[0]);
         let toPost={author:{id:this.state.id_artist},cat:form.categorie.value,support:form.support.value,imgUri:base64,name:form.titre.value,year:form.annee.value,price:0}
-        axios.post(
-        'https://paezappsabo.herokuapp.com/tableaux/insert',toPost,AuthService.getHeader())
+        // axios.post(
+        // 'https://paezappsabo.herokuapp.com/tableaux/insert',toPost,AuthService.getHeader())
+        // .then(result =>{
+        //   console.log(result);
+        //   this.fetchingImages();
+        fetch('https://paezappsabo.herokuapp.com/tableaux/insert',{
+          method:'POST', headers:AuthService.getHeader(),
+          body:JSON.stringify({toPost})
+        })
         .then(result =>{
-          console.log(result);
-          this.fetchingImages();
+             console.log(result);
+             this.fetchingImages();
         })
         .catch(error =>{
             console.log("error: "+error);
